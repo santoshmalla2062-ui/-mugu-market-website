@@ -1,0 +1,6 @@
+{
+  "name": "Mugu Local Market",
+  "description": "Official APK download website for the Mugu Local Market Android application.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
