@@ -1,21 +1,24 @@
 import { motion } from "motion/react";
+import homeScreen from "@/assets/images/home_screen_1788359252620.jpg";
+import shopScreen from "@/assets/images/shop_screen_1788359275067.jpg";
+import cartScreen from "@/assets/images/cart_screen_1788359296229.jpg";
 
 export function Screenshots() {
   const screenshots = [
     { 
       title: "Home & Offers", 
       desc: "Browse local Mugu products",
-      image: "/src/assets/images/home_screen_1788359252620.jpg"
+      image: homeScreen
     },
     { 
       title: "Shop Details", 
       desc: "Order directly from local vendors",
-      image: "/src/assets/images/shop_screen_1788359275067.jpg"
+      image: shopScreen
     },
     { 
       title: "Cart & Checkout", 
       desc: "Easy delivery and digital payments",
-      image: "/src/assets/images/cart_screen_1788359296229.jpg"
+      image: cartScreen
     }
   ];
 
