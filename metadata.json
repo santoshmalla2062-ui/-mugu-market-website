@@ -1,6 +1,6 @@
 {
-  "name": "Mugu Nepal App",
-  "description": "Official APK download website for the Mugu App (Mugu Nepal) Android application.",
+  "name": "Hamro Mugu",
+  "description": "Official APK download website for the Hamro Mugu Android application.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
