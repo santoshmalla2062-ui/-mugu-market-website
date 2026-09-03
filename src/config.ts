@@ -1,5 +1,5 @@
 export const APP_CONFIG = {
-  BRAND_NAME: "Mugu Market",
+  BRAND_NAME: "Mugu Nepal",
   
   // IMPORTANT: APK HOSTING CONFIGURATION
   // Place your real APK at: public/downloads/mugu-local-market.apk
@@ -7,7 +7,7 @@ export const APP_CONFIG = {
   // Leaving it empty safely disables the download buttons.
   APK_DOWNLOAD_URL: "",
   
-  APP_NAME: "Mugu Local Market",
+  APP_NAME: "Mugu App",
   APP_VERSION: "1.0.0",
   APK_FILE_SIZE: "24.5 MB",
   APK_LAST_UPDATED: "August 2026",

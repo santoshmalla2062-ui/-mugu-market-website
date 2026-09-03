@@ -1,6 +1,6 @@
 {
-  "name": "Mugu Local Market",
-  "description": "Official APK download website for the Mugu Local Market Android application.",
+  "name": "Mugu Nepal App",
+  "description": "Official APK download website for the Mugu App (Mugu Nepal) Android application.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
