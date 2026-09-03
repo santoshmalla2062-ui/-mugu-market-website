@@ -1,6 +1,11 @@
 import { APP_CONFIG } from "@/config";
+import { useSettings } from "@/hooks/useSettings";
 
 export default function PrivacyPolicy() {
+  const { settings } = useSettings();
+  const phone = !settings.loading ? settings.phone : APP_CONFIG.CONTACT.PHONE;
+  const email = !settings.loading ? settings.email : APP_CONFIG.CONTACT.EMAIL;
+
   return (
     <div className="py-16 sm:py-24 relative min-h-[calc(100vh-80px)]">
       <div className="mountain-peak"></div>
@@ -38,8 +43,8 @@ export default function PrivacyPolicy() {
             <h2 className="text-2xl font-bold tracking-tight text-white">4. Contact Us</h2>
             <p>
               For any questions regarding this privacy policy, please contact us at:<br />
-              <span className="text-blue-400">Email:</span> {APP_CONFIG.CONTACT.EMAIL}<br />
-              <span className="text-blue-400">Phone:</span> {APP_CONFIG.CONTACT.PHONE}
+              <span className="text-blue-400">Email:</span> {email}<br />
+              <span className="text-blue-400">Phone:</span> {phone}
             </p>
           </div>
         </div>

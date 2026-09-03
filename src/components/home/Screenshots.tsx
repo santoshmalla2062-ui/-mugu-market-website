@@ -1,13 +1,22 @@
 import { motion } from "motion/react";
-import { Image as ImageIcon } from "lucide-react";
 
 export function Screenshots() {
-  // Using placeholders for now. Replace with real app screenshot paths when available.
-  const placeholders = [
-    { title: "Home Screen", desc: "Browse local products" },
-    { title: "Shop Profile", desc: "View seller details" },
-    { title: "Cart", desc: "Manage your items" },
-    { title: "Payment QR", desc: "Scan and pay easily" },
+  const screenshots = [
+    { 
+      title: "Home & Offers", 
+      desc: "Browse local Mugu products",
+      image: "/src/assets/images/home_screen_1788359252620.jpg"
+    },
+    { 
+      title: "Shop Details", 
+      desc: "Order directly from local vendors",
+      image: "/src/assets/images/shop_screen_1788359275067.jpg"
+    },
+    { 
+      title: "Cart & Checkout", 
+      desc: "Easy delivery and digital payments",
+      image: "/src/assets/images/cart_screen_1788359296229.jpg"
+    }
   ];
 
   return (
@@ -22,8 +31,8 @@ export function Screenshots() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-          {placeholders.map((item, index) => (
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 lg:gap-12 max-w-5xl mx-auto">
+          {screenshots.map((item, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 20 }}
@@ -33,12 +42,22 @@ export function Screenshots() {
               className="flex flex-col items-center animate-float"
               style={{ animationDelay: `${index * 0.5}s` }}
             >
-              <div className="w-full aspect-[9/19] bg-[#000] border-[6px] border-gray-800 rounded-[36px] shadow-[0_0_40px_rgba(59,130,246,0.15)] overflow-hidden relative flex flex-col items-center justify-center text-gray-500 group transition-all duration-500 hover:border-blue-500/30 hover:shadow-[0_0_50px_rgba(59,130,246,0.3)]">
-                <ImageIcon className="w-10 h-10 mb-2 opacity-50 group-hover:scale-110 transition-transform text-blue-400" />
-                <span className="text-sm font-medium">Placeholder</span>
+              <div className="w-full aspect-[9/19] bg-[#000] border-[6px] border-gray-800 rounded-[36px] shadow-[0_0_40px_rgba(59,130,246,0.15)] overflow-hidden relative flex flex-col items-center justify-center group transition-all duration-500 hover:border-emerald-500/50 hover:shadow-[0_0_50px_rgba(16,185,129,0.3)]">
+                
+                {/* Fallback text if image not found */}
+                <span className="absolute text-sm font-semibold text-gray-600 z-0">Image Pending</span>
+                
+                <img 
+                  src={item.image} 
+                  alt={item.title}
+                  className="absolute inset-0 w-full h-full object-cover z-10 group-hover:scale-105 transition-transform duration-700 bg-gray-900"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).style.opacity = '0';
+                  }}
+                />
                 
                 {/* Simulated screen glare */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/5 to-white/0 pointer-events-none"></div>
+                <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/5 to-white/0 pointer-events-none z-20"></div>
               </div>
               <h3 className="mt-6 text-base font-semibold text-white">{item.title}</h3>
               <p className="text-xs text-gray-400 text-center mt-1">{item.desc}</p>

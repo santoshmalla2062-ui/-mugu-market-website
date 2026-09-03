@@ -2,8 +2,12 @@ import { APP_CONFIG } from "@/config";
 import { Button } from "@/components/ui/button";
 import { Download as DownloadIcon, Smartphone, CheckCircle, Shield, FileBox } from "lucide-react";
 import { motion } from "motion/react";
+import { useSettings } from "@/hooks/useSettings";
 
 export default function Download() {
+  const { settings } = useSettings();
+  const apkUrl = !settings.loading ? settings.apkUrl : APP_CONFIG.APK_DOWNLOAD_URL;
+
   return (
     <div className="flex flex-col min-h-[calc(100vh-80px)] pt-10 pb-20 relative">
       <div className="mountain-peak"></div>
@@ -28,8 +32,8 @@ export default function Download() {
             </div>
 
             <div className="mb-10">
-              {APP_CONFIG.APK_DOWNLOAD_URL ? (
-                <a href={APP_CONFIG.APK_DOWNLOAD_URL} download className="block w-full outline-none">
+              {apkUrl ? (
+                <a href={apkUrl} download className="block w-full outline-none">
                   <div className="bg-gradient-to-r from-blue-600 to-blue-500 rounded-3xl p-[2px] hover:scale-[1.02] active:scale-[0.98] transition-all shadow-[0_0_50px_rgba(59,130,246,0.3)] hover:shadow-[0_0_80px_rgba(59,130,246,0.5)] cursor-pointer group">
                     <div className="bg-blue-600 rounded-[22px] p-6 sm:p-8 flex flex-col items-center justify-center overflow-hidden relative w-full text-center">
                       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-white/20 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"></div>

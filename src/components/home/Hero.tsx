@@ -5,8 +5,12 @@ import { APP_CONFIG } from "@/config";
 import { Button } from "@/components/ui/button";
 
 import bgImage from "@/assets/images/sunset_valley_1788081186609.jpg";
+import { useSettings } from "@/hooks/useSettings";
 
 export function Hero() {
+  const { settings } = useSettings();
+  const apkUrl = !settings.loading ? settings.apkUrl : APP_CONFIG.APK_DOWNLOAD_URL;
+
   return (
     <section className="relative overflow-hidden min-h-[calc(100vh-80px)] flex items-center pt-16 md:pt-0 pb-16">
       {/* Background Image of Mugu / Nepal Himalayas */}
@@ -51,8 +55,8 @@ export function Hero() {
             </p>
             
             <div className="flex flex-col gap-6 w-full sm:max-w-md">
-              {APP_CONFIG.APK_DOWNLOAD_URL ? (
-                <a href={APP_CONFIG.APK_DOWNLOAD_URL} download className="block w-full outline-none">
+              {apkUrl ? (
+                <a href={apkUrl} download className="block w-full outline-none">
                   <div className="bg-gradient-to-r from-emerald-600 to-blue-600 rounded-2xl p-[2px] hover:scale-[1.02] active:scale-[0.98] transition-all shadow-[0_0_40px_rgba(16,185,129,0.2)] hover:shadow-[0_0_60px_rgba(16,185,129,0.4)] cursor-pointer group">
                     <div className="bg-gray-900 rounded-xl p-4 sm:p-6 flex items-center justify-between overflow-hidden relative h-full w-full">
                       <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-700"></div>

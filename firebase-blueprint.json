@@ -1,0 +1,13 @@
+{
+  "collections": [
+    {
+      "name": "images",
+      "description": "User uploaded images for the gallery",
+      "rules": "allow read, write: if true;",
+      "schema": {
+        "imageUrl": "string",
+        "createdAt": "timestamp"
+      }
+    }
+  ]
+}

@@ -1,8 +1,15 @@
 import { Link } from "react-router-dom";
 import { Store, Mail, MapPin, Phone } from "lucide-react";
 import { APP_CONFIG } from "@/config";
+import { useSettings } from "@/hooks/useSettings";
 
 export function Footer() {
+  const { settings } = useSettings();
+  const phone = !settings.loading ? settings.phone : APP_CONFIG.CONTACT.PHONE;
+  const email = !settings.loading ? settings.email : APP_CONFIG.CONTACT.EMAIL;
+  const location = !settings.loading ? settings.location : APP_CONFIG.CONTACT.LOCATION;
+  const apkUrl = !settings.loading ? settings.apkUrl : APP_CONFIG.APK_DOWNLOAD_URL;
+
   return (
     <footer className="bg-black/20 backdrop-blur-sm border-t border-white/5 text-gray-400 relative z-20">
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 md:py-16">
@@ -47,6 +54,9 @@ export function Footer() {
               <li>
                 <Link to="/terms" className="hover:text-blue-400 transition-colors">नियम तथा सर्तहरू</Link>
               </li>
+              <li>
+                <Link to="/login" className="hover:text-blue-400 transition-colors text-emerald-500 font-medium">Admin Login</Link>
+              </li>
             </ul>
           </div>
 
@@ -55,15 +65,15 @@ export function Footer() {
             <ul className="space-y-3 text-sm text-gray-500">
               <li className="flex items-start gap-3">
                 <MapPin className="h-5 w-5 text-blue-500 shrink-0" />
-                <span>{APP_CONFIG.CONTACT.LOCATION}</span>
+                <span>{location}</span>
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="h-5 w-5 text-blue-500 shrink-0" />
-                <span>{APP_CONFIG.CONTACT.PHONE}</span>
+                <span>{phone}</span>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="h-5 w-5 text-blue-500 shrink-0" />
-                <span>{APP_CONFIG.CONTACT.EMAIL}</span>
+                <span>{email}</span>
               </li>
             </ul>
           </div>
@@ -78,7 +88,7 @@ export function Footer() {
           <div className="flex items-center gap-2">
             <span className="text-[10px] uppercase font-bold tracking-widest text-gray-500">Installation Config:</span>
             <div className="text-[10px] font-mono text-blue-400 bg-blue-400/5 px-2 py-1 rounded border border-blue-400/20">
-              APK_DOWNLOAD_URL = '{APP_CONFIG.APK_DOWNLOAD_URL || "NOT SET"}'
+              APK_DOWNLOAD_URL = '{apkUrl || "NOT SET"}'
             </div>
           </div>
         </div>

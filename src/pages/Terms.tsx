@@ -1,6 +1,10 @@
 import { APP_CONFIG } from "@/config";
+import { useSettings } from "@/hooks/useSettings";
 
 export default function Terms() {
+  const { settings } = useSettings();
+  const email = !settings.loading ? settings.email : APP_CONFIG.CONTACT.EMAIL;
+
   return (
     <div className="py-16 sm:py-24 relative min-h-[calc(100vh-80px)]">
       <div className="mountain-peak"></div>
@@ -44,7 +48,7 @@ export default function Terms() {
 
             <h2 className="text-2xl font-bold tracking-tight text-white">5. Contact</h2>
             <p>
-              If you have any questions about these Terms, please contact us at <span className="text-blue-400">{APP_CONFIG.CONTACT.EMAIL}</span>.
+              If you have any questions about these Terms, please contact us at <span className="text-blue-400">{email}</span>.
             </p>
           </div>
         </div>

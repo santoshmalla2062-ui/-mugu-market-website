@@ -2,6 +2,7 @@ import { motion } from "motion/react";
 import { APP_CONFIG } from "@/config";
 import { Download, Store, Smartphone, Globe, ExternalLink, Box } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useSettings } from "@/hooks/useSettings";
 
 // Helper to map string icon names to Lucide components safely
 const getIcon = (iconName: string) => {
@@ -14,6 +15,9 @@ const getIcon = (iconName: string) => {
 };
 
 export function AppsAndServices() {
+  const { settings } = useSettings();
+  const apkUrl = !settings.loading ? settings.apkUrl : APP_CONFIG.APK_DOWNLOAD_URL;
+
   return (
     <section id="services" className="py-20 relative z-10 border-t border-white/5 bg-black/10">
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -32,7 +36,7 @@ export function AppsAndServices() {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {APP_CONFIG.SERVICES.map((service, index) => {
             const IconComponent = getIcon(service.icon);
-            const downloadLink = service.useApkUrl ? APP_CONFIG.APK_DOWNLOAD_URL : undefined;
+            const downloadLink = service.useApkUrl ? apkUrl : undefined;
             const isAvailable = service.status === "Available";
 
             return (
