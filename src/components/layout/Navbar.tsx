@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Store, Download } from "lucide-react";
 import { APP_CONFIG } from "@/config";
 import { Button } from "@/components/ui/button";
+import appLogo from "@/assets/images/logo_final_polished_nature_1788511126581.jpg";
 
 export function Navbar() {
   return (
@@ -9,9 +10,9 @@ export function Navbar() {
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-20 items-center justify-between">
           <div className="flex items-center gap-2">
-            <Link to="/" className="flex items-center gap-3 font-semibold text-xl tracking-tight text-white">
-              <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center font-bold text-xl text-white">
-                M
+            <Link to="/" className="flex items-center gap-3 font-semibold text-xl tracking-tight text-white group">
+              <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-white/20 shadow-lg group-hover:scale-105 transition-transform">
+                <img src={appLogo} alt="Mugu Local Market Logo" className="w-full h-full object-cover" />
               </div>
               <span>{APP_CONFIG.BRAND_NAME}</span>
             </Link>
@@ -29,7 +30,10 @@ export function Navbar() {
             </a>
           </nav>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
+            <Button variant="outline" asChild className="rounded-full text-xs font-semibold px-3 sm:px-5 border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10">
+              <Link to="/design-preview">डिजाइन</Link>
+            </Button>
             <Button variant="outline" asChild className="hidden sm:inline-flex rounded-full text-xs font-semibold px-5">
               <Link to="/terms">TERMS</Link>
             </Button>

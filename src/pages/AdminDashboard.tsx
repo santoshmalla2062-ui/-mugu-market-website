@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { auth, db } from "@/lib/firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, deleteDoc, doc } from "firebase/firestore";
-import { Upload, Trash2, LogOut, Loader2, Image as ImageIcon, Settings, Save, Check } from "lucide-react";
+import { Upload, Trash2, LogOut, Loader2, Image as ImageIcon, Settings, Save, Check, AppWindow } from "lucide-react";
 import { useSettings } from "@/hooks/useSettings";
 
 export default function AdminDashboard() {
@@ -20,8 +20,15 @@ export default function AdminDashboard() {
     apkUrl: "",
     phone: "",
     email: "",
-    location: ""
+    location: "",
+    apps: "[]",
+    tickerMessages: "[]"
   });
+  
+  // App management state
+  const [apps, setApps] = useState<any[]>([]);
+  // Ticker management state
+  const [tickerMessages, setTickerMessages] = useState<any[]>([]);
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
 
@@ -31,8 +38,21 @@ export default function AdminDashboard() {
         apkUrl: settings.apkUrl || "",
         phone: settings.phone || "",
         email: settings.email || "",
-        location: settings.location || ""
+        location: settings.location || "",
+        apps: settings.apps || "[]",
+        tickerMessages: settings.tickerMessages || "[]"
       });
+      
+      try {
+        if (settings.apps) {
+          setApps(JSON.parse(settings.apps));
+        }
+        if (settings.tickerMessages) {
+          setTickerMessages(JSON.parse(settings.tickerMessages));
+        }
+      } catch (e) {
+        console.error("Failed to parse settings", e);
+      }
     }
   }, [settings]);
 
@@ -80,6 +100,54 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleAddApp = () => {
+    const newApp = {
+      id: `app-${Date.now()}`,
+      name: "New App",
+      description: "App description",
+      icon: "Smartphone",
+      platform: "Android",
+      customApkUrl: "",
+      status: "Available"
+    };
+    setApps([...apps, newApp]);
+  };
+
+  const handleUpdateApp = (index: number, field: string, value: any) => {
+    const updatedApps = [...apps];
+    updatedApps[index] = { ...updatedApps[index], [field]: value };
+    setApps(updatedApps);
+  };
+
+  const handleRemoveApp = (index: number) => {
+    const updatedApps = [...apps];
+    updatedApps.splice(index, 1);
+    setApps(updatedApps);
+  };
+
+  const handleAddTicker = () => {
+    const newTicker = {
+      id: `ticker-${Date.now()}`,
+      text: "नयाँ सन्देश यहाँ लेख्नुहोस्",
+      icon: "Sparkles",
+      color: "text-blue-400",
+      textColor: "text-gray-300"
+    };
+    setTickerMessages([...tickerMessages, newTicker]);
+  };
+
+  const handleUpdateTicker = (index: number, field: string, value: any) => {
+    const updatedTickers = [...tickerMessages];
+    updatedTickers[index] = { ...updatedTickers[index], [field]: value };
+    setTickerMessages(updatedTickers);
+  };
+
+  const handleRemoveTicker = (index: number) => {
+    const updatedTickers = [...tickerMessages];
+    updatedTickers.splice(index, 1);
+    setTickerMessages(updatedTickers);
+  };
+
   const resizeImage = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -89,7 +157,7 @@ export default function AdminDashboard() {
         img.src = event.target?.result as string;
         img.onload = () => {
           const canvas = document.createElement("canvas");
-          const MAX_WIDTH = 600; // Aggressive compression
+          const MAX_WIDTH = 600;
           const MAX_HEIGHT = 600;
           let width = img.width;
           let height = img.height;
@@ -109,7 +177,7 @@ export default function AdminDashboard() {
           canvas.height = height;
           const ctx = canvas.getContext("2d");
           ctx?.drawImage(img, 0, 0, width, height);
-          resolve(canvas.toDataURL("image/jpeg", 0.5)); // 50% quality for safety
+          resolve(canvas.toDataURL("image/jpeg", 0.5));
         };
         img.onerror = (error) => reject(new Error("Failed to read image file."));
       };
@@ -129,7 +197,6 @@ export default function AdminDashboard() {
         
         setUploadStep("Saving to database...");
         
-        // Timeout wrapper for addDoc to prevent endless spinning
         const uploadPromise = addDoc(collection(db, "images"), {
           imageUrl: base64Image,
           createdAt: serverTimestamp(),
@@ -155,10 +222,31 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleSaveSettings = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSaving(true);
+    setSaveSuccess(false);
+    try {
+      // Save all settings including the dynamic lists as JSON
+      await updateSettings({
+        ...formData,
+        apps: JSON.stringify(apps),
+        tickerMessages: JSON.stringify(tickerMessages)
+      });
+      setSaveSuccess(true);
+      setTimeout(() => setSaveSuccess(false), 3000);
+    } catch (error) {
+      console.error(error);
+      alert("Failed to save settings.");
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   if (!user) return <div className="flex-1 flex items-center justify-center min-h-screen text-white">Loading...</div>;
 
   return (
-    <div className="flex-1 p-6 relative z-10 max-w-7xl mx-auto w-full">
+    <div className="flex-1 p-6 relative z-10 max-w-7xl mx-auto w-full pb-20">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
         <div>
           <h1 className="text-3xl font-bold text-white mb-2">Admin Dashboard</h1>
@@ -237,82 +325,272 @@ export default function AdminDashboard() {
         )}
       </div>
 
-      <div className="mt-8 bg-white/5 border border-white/10 rounded-3xl p-6 sm:p-8">
-        <h2 className="text-xl font-bold text-white flex items-center gap-2 mb-6">
-          <Settings className="w-6 h-6 text-blue-400" />
-          App Settings & Contact Info
-        </h2>
-        
-        <form onSubmit={async (e) => {
-          e.preventDefault();
-          setIsSaving(true);
-          setSaveSuccess(false);
-          try {
-            await updateSettings(formData);
-            setSaveSuccess(true);
-            setTimeout(() => setSaveSuccess(false), 3000);
-          } catch (error) {
-            console.error(error);
-            alert("Failed to save settings.");
-          } finally {
-            setIsSaving(false);
-          }
-        }} className="space-y-6">
+      <form onSubmit={handleSaveSettings}>
+        {/* Ticker Management Section */}
+        <div className="mt-8 bg-white/5 border border-white/10 rounded-3xl p-6 sm:p-8">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+            <h2 className="text-xl font-bold text-white flex items-center gap-2">
+              <AppWindow className="w-6 h-6 text-yellow-400" />
+              Manage News Ticker
+            </h2>
+            <button
+              type="button"
+              onClick={handleAddTicker}
+              className="px-4 py-2 bg-yellow-600 hover:bg-yellow-500 text-white rounded-xl text-sm font-medium transition-colors"
+            >
+              + Add News Text
+            </button>
+          </div>
           
-          <div>
-            <label className="block text-gray-400 text-sm font-medium mb-2">APK Download Link (e.g. Google Drive Link)</label>
-            <input
-              type="url"
-              value={formData.apkUrl}
-              onChange={(e) => setFormData({...formData, apkUrl: e.target.value})}
-              placeholder="https://drive.google.com/..."
-              className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors"
-            />
-            <p className="text-xs text-gray-500 mt-2">Paste your APK download link here. Leave empty to disable the download button.</p>
-          </div>
+          <p className="text-gray-400 text-sm mb-6">
+            यी सन्देशहरू वेबसाइटको सबैभन्दा माथि घुमिरहने (Scrolling) खण्डमा देखिनेछन्।
+          </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label className="block text-gray-400 text-sm font-medium mb-2">Contact Phone</label>
-              <input
-                type="text"
-                value={formData.phone}
-                onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors"
-              />
-            </div>
+          <div className="space-y-4">
+            {tickerMessages.map((ticker, index) => (
+              <div key={ticker.id || index} className="p-4 bg-black/40 border border-white/10 rounded-2xl relative group">
+                <button 
+                  type="button"
+                  onClick={() => handleRemoveTicker(index)}
+                  className="absolute top-4 right-4 p-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-lg transition-colors opacity-0 group-hover:opacity-100"
+                  title="Remove Message"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mr-10">
+                  <div className="lg:col-span-2">
+                    <label className="block text-xs font-medium text-gray-500 mb-1">Message Text</label>
+                    <input 
+                      type="text" 
+                      value={ticker.text || ''} 
+                      onChange={(e) => handleUpdateTicker(index, 'text', e.target.value)}
+                      placeholder="Enter news or update..."
+                      className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:border-yellow-500 outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-gray-500 mb-1">Icon</label>
+                    <select 
+                      value={ticker.icon || 'Sparkles'}
+                      onChange={(e) => handleUpdateTicker(index, 'icon', e.target.value)}
+                      className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:border-yellow-500 outline-none"
+                    >
+                      <option value="Sparkles">Sparkles</option>
+                      <option value="Megaphone">Megaphone</option>
+                      <option value="Zap">Lightning (Zap)</option>
+                      <option value="Info">Info</option>
+                      <option value="Star">Star</option>
+                      <option value="Bell">Bell</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-gray-500 mb-1">Icon Color</label>
+                    <select 
+                      value={ticker.color || 'text-blue-400'}
+                      onChange={(e) => handleUpdateTicker(index, 'color', e.target.value)}
+                      className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:border-yellow-500 outline-none"
+                    >
+                      <option value="text-blue-400">Blue</option>
+                      <option value="text-emerald-400">Emerald / Green</option>
+                      <option value="text-yellow-400">Yellow</option>
+                      <option value="text-purple-400">Purple</option>
+                      <option value="text-pink-400">Pink</option>
+                      <option value="text-white">White</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-gray-500 mb-1">Text Color</label>
+                    <select 
+                      value={ticker.textColor || 'text-gray-300'}
+                      onChange={(e) => handleUpdateTicker(index, 'textColor', e.target.value)}
+                      className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:border-yellow-500 outline-none"
+                    >
+                      <option value="text-gray-300">Default (Gray)</option>
+                      <option value="text-white">White</option>
+                      <option value="text-blue-400">Blue</option>
+                      <option value="text-emerald-400">Emerald / Green</option>
+                      <option value="text-yellow-400">Yellow</option>
+                      <option value="text-purple-400">Purple</option>
+                      <option value="text-pink-400">Pink</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            ))}
             
+            {tickerMessages.length === 0 && (
+              <div className="text-center py-8 text-gray-500 text-sm">
+                कुनै पनि सन्देश छैन। "+ Add News Text" मा थिचेर नयाँ सन्देश थप्नुहोस्।
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Apps Management Section */}
+        <div className="mt-8 bg-white/5 border border-white/10 rounded-3xl p-6 sm:p-8">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+            <h2 className="text-xl font-bold text-white flex items-center gap-2">
+              <AppWindow className="w-6 h-6 text-purple-400" />
+              Manage Apps & Services
+            </h2>
+            <button
+              type="button"
+              onClick={handleAddApp}
+              className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-sm font-medium transition-colors"
+            >
+              + Add New App
+            </button>
+          </div>
+          
+          <p className="text-gray-400 text-sm mb-6">
+            यी एपहरू वेबसाइटको "Apps & Services" खण्डमा देखिनेछन्। यहाँबाट तपाईंले नयाँ एप थप्न, लिंक परिवर्तन गर्न वा हटाउन सक्नुहुन्छ।
+          </p>
+
+          <div className="space-y-4">
+            {apps.map((app, index) => (
+              <div key={app.id || index} className="p-4 bg-black/40 border border-white/10 rounded-2xl relative group">
+                <button 
+                  type="button"
+                  onClick={() => handleRemoveApp(index)}
+                  className="absolute top-4 right-4 p-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-lg transition-colors opacity-0 group-hover:opacity-100"
+                  title="Remove App"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mr-10">
+                  <div>
+                    <label className="block text-xs font-medium text-gray-500 mb-1">App Name</label>
+                    <input 
+                      type="text" 
+                      value={app.name || ''} 
+                      onChange={(e) => handleUpdateApp(index, 'name', e.target.value)}
+                      className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:border-purple-500 outline-none"
+                    />
+                  </div>
+                  <div className="lg:col-span-2">
+                    <label className="block text-xs font-medium text-gray-500 mb-1">Description</label>
+                    <input 
+                      type="text" 
+                      value={app.description || ''} 
+                      onChange={(e) => handleUpdateApp(index, 'description', e.target.value)}
+                      className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:border-purple-500 outline-none"
+                    />
+                  </div>
+                  <div className="lg:col-span-2">
+                    <label className="block text-xs font-medium text-gray-500 mb-1">APK Google Drive Link (Leave empty if none)</label>
+                    <input 
+                      type="text" 
+                      value={app.customApkUrl || ''} 
+                      onChange={(e) => handleUpdateApp(index, 'customApkUrl', e.target.value)}
+                      placeholder="https://drive.google.com/..."
+                      className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:border-purple-500 outline-none"
+                    />
+                  </div>
+                  <div className="flex gap-4">
+                    <div className="flex-1">
+                      <label className="block text-xs font-medium text-gray-500 mb-1">Status</label>
+                      <select 
+                        value={app.status || 'Available'}
+                        onChange={(e) => handleUpdateApp(index, 'status', e.target.value)}
+                        className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:border-purple-500 outline-none"
+                      >
+                        <option value="Available">Available</option>
+                        <option value="Coming Soon">Coming Soon</option>
+                      </select>
+                    </div>
+                    <div className="flex-1">
+                      <label className="block text-xs font-medium text-gray-500 mb-1">Icon Type</label>
+                      <select 
+                        value={app.icon || 'Store'}
+                        onChange={(e) => handleUpdateApp(index, 'icon', e.target.value)}
+                        className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:border-purple-500 outline-none"
+                      >
+                        <option value="Store">Store</option>
+                        <option value="Smartphone">Smartphone</option>
+                        <option value="Globe">Globe</option>
+                        <option value="Box">Box</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+            
+            {apps.length === 0 && (
+              <div className="text-center py-8 text-gray-500 text-sm">
+                कुनै पनि एप छैन। "Add New App" मा थिचेर नयाँ एप थप्नुहोस्।
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* General Settings Section */}
+        <div className="mt-8 bg-white/5 border border-white/10 rounded-3xl p-6 sm:p-8">
+          <h2 className="text-xl font-bold text-white flex items-center gap-2 mb-6">
+            <Settings className="w-6 h-6 text-blue-400" />
+            General Settings
+          </h2>
+          
+          <div className="space-y-6">
             <div>
-              <label className="block text-gray-400 text-sm font-medium mb-2">Contact Email</label>
+              <label className="block text-gray-400 text-sm font-medium mb-2">Main APK Download Link (Used as default)</label>
               <input
-                type="email"
-                value={formData.email}
-                onChange={(e) => setFormData({...formData, email: e.target.value})}
+                type="url"
+                value={formData.apkUrl}
+                onChange={(e) => setFormData({...formData, apkUrl: e.target.value})}
+                placeholder="https://drive.google.com/..."
                 className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors"
               />
             </div>
 
-            <div className="md:col-span-2">
-              <label className="block text-gray-400 text-sm font-medium mb-2">Location / Address</label>
-              <input
-                type="text"
-                value={formData.location}
-                onChange={(e) => setFormData({...formData, location: e.target.value})}
-                className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors"
-              />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-gray-400 text-sm font-medium mb-2">Contact Phone</label>
+                <input
+                  type="text"
+                  value={formData.phone}
+                  onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                  className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-gray-400 text-sm font-medium mb-2">Contact Email</label>
+                <input
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors"
+                />
+              </div>
+
+              <div className="md:col-span-2">
+                <label className="block text-gray-400 text-sm font-medium mb-2">Location / Address</label>
+                <input
+                  type="text"
+                  value={formData.location}
+                  onChange={(e) => setFormData({...formData, location: e.target.value})}
+                  className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors"
+                />
+              </div>
+            </div>
+
+            {/* Sticky Save Button */}
+            <div className="sticky bottom-4 z-50 pt-4 flex justify-end">
+              <button
+                type="submit"
+                disabled={isSaving}
+                className="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 rounded-2xl font-bold text-lg transition-colors shadow-xl shadow-blue-900/30 disabled:opacity-70"
+              >
+                {isSaving ? <Loader2 className="w-6 h-6 animate-spin" /> : (saveSuccess ? <Check className="w-6 h-6" /> : <Save className="w-6 h-6" />)}
+                {isSaving ? "Saving..." : (saveSuccess ? "Saved Successfully!" : "Save All Changes")}
+              </button>
             </div>
           </div>
-
-          <button
-            type="submit"
-            disabled={isSaving}
-            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-xl font-medium transition-colors shadow-lg shadow-blue-900/20 disabled:opacity-70"
-          >
-            {isSaving ? <Loader2 className="w-5 h-5 animate-spin" /> : (saveSuccess ? <Check className="w-5 h-5" /> : <Save className="w-5 h-5" />)}
-            {isSaving ? "Saving..." : (saveSuccess ? "Saved Successfully!" : "Save Settings")}
-          </button>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
   );
 }

@@ -28,19 +28,10 @@ export const APP_CONFIG = {
       description: "The official digital marketplace connecting buyers, sellers, and dealers in Mugu.",
       icon: "Store", // Uses Lucide icons (mapped in the component)
       platform: "Android",
-      useApkUrl: true, // Tells the UI to use the main APK_DOWNLOAD_URL from above
+      customApkUrl: "", // Add Google Drive/Direct link for THIS specific app here
+      useGlobalApkUrl: true, // Tells the UI to use the main APK_DOWNLOAD_URL from above if custom is empty
       websiteUrl: "/download",
       status: "Available" // "Available" | "Coming Soon"
-    },
-    {
-      id: "sajilo-mugu-wholesale",
-      name: "Sajilo Mugu Wholesale",
-      description: "Bulk purchasing and delivery services across Soru Rural Municipality and other parts of Mugu.",
-      icon: "Box", 
-      platform: "Service",
-      useApkUrl: false, 
-      websiteUrl: "",
-      status: "Coming Soon" 
     }
   ]
 };

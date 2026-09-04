@@ -56,7 +56,7 @@ export function Hero() {
             
             <div className="flex flex-col gap-6 w-full sm:max-w-md">
               {apkUrl ? (
-                <a href={apkUrl} download className="block w-full outline-none">
+                <a href={apkUrl} target="_blank" rel="noopener noreferrer" className="block w-full outline-none">
                   <div className="bg-gradient-to-r from-emerald-600 to-blue-600 rounded-2xl p-[2px] hover:scale-[1.02] active:scale-[0.98] transition-all shadow-[0_0_40px_rgba(16,185,129,0.2)] hover:shadow-[0_0_60px_rgba(16,185,129,0.4)] cursor-pointer group">
                     <div className="bg-gray-900 rounded-xl p-4 sm:p-6 flex items-center justify-between overflow-hidden relative h-full w-full">
                       <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-700"></div>

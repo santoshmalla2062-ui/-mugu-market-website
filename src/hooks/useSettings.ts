@@ -9,6 +9,8 @@ export function useSettings() {
     phone: APP_CONFIG.CONTACT.PHONE,
     email: APP_CONFIG.CONTACT.EMAIL,
     location: APP_CONFIG.CONTACT.LOCATION,
+    apps: "[]",
+    tickerMessages: "[]",
     loading: true
   });
 
@@ -21,6 +23,8 @@ export function useSettings() {
           phone: data.phone !== undefined ? data.phone : APP_CONFIG.CONTACT.PHONE,
           email: data.email !== undefined ? data.email : APP_CONFIG.CONTACT.EMAIL,
           location: data.location !== undefined ? data.location : APP_CONFIG.CONTACT.LOCATION,
+          apps: data.apps !== undefined ? data.apps : "[]",
+          tickerMessages: data.tickerMessages !== undefined ? data.tickerMessages : "[]",
           loading: false
         });
       } else {

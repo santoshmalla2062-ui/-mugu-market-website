@@ -48,7 +48,7 @@ export default function Login() {
   };
 
   return (
-    <div className="flex-1 flex flex-col items-center justify-center p-4 bg-white/5 relative z-10">
+    <div className="flex-1 flex flex-col items-center justify-center p-4 bg-white/5 relative z-10 min-h-screen">
       <div className="w-full max-w-md bg-gray-900 border border-white/10 rounded-3xl p-8 shadow-2xl">
         <Lock className="w-12 h-12 text-emerald-500 mx-auto mb-4" />
         <h2 className="text-3xl font-bold text-white text-center mb-6">
