@@ -1,7 +1,7 @@
 import { motion } from "motion/react";
-import homeScreen from "@/assets/images/home_screen_1788359252620.jpg";
-import shopScreen from "@/assets/images/shop_screen_1788359275067.jpg";
-import cartScreen from "@/assets/images/cart_screen_1788359296229.jpg";
+import homeScreen from "@/assets/images/mugu_app_home_phone_1788524672232.jpg";
+import shopScreen from "@/assets/images/mugu_app_shop_phone_1788524688951.jpg";
+import cartScreen from "@/assets/images/mugu_app_cart_phone_1788524704513.jpg";
 
 export function Screenshots() {
   const screenshots = [
