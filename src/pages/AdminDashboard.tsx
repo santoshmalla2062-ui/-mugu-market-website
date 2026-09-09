@@ -203,7 +203,7 @@ export default function AdminDashboard() {
         });
         
         const timeoutPromise = new Promise((_, reject) => 
-          setTimeout(() => reject(new Error("Upload timed out. Your connection might be slow, please try again.")), 15000)
+          setTimeout(() => reject(new Error("Upload is taking longer than expected. Please check your internet connection and try again.")), 60000)
         );
 
         await Promise.race([uploadPromise, timeoutPromise]);
