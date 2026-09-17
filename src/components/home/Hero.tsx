@@ -1,5 +1,6 @@
+import { useState } from "react";
 import { motion } from "motion/react";
-import { Download, ShoppingBag } from "lucide-react";
+import { Download, ShoppingBag, Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { APP_CONFIG } from "@/config";
 import { Button } from "@/components/ui/button";
@@ -12,6 +13,14 @@ export function Hero() {
   const { settings } = useSettings();
   const rawApkUrl = !settings.loading ? settings.apkUrl : APP_CONFIG.APK_DOWNLOAD_URL;
   const apkUrl = getDirectApkUrl(rawApkUrl);
+  const [isStarting, setIsStarting] = useState(false);
+
+  const handleDownloadClick = () => {
+    setIsStarting(true);
+    setTimeout(() => {
+      setIsStarting(false);
+    }, 4000);
+  };
 
   return (
     <section className="relative overflow-hidden min-h-[calc(100vh-80px)] flex items-center pt-16 md:pt-0 pb-16">
@@ -64,18 +73,27 @@ export function Hero() {
                   target={apkUrl.startsWith("/") ? undefined : "_blank"} 
                   rel="noopener noreferrer" 
                   download="Hamro-Mugu-Market.apk"
+                  onClick={handleDownloadClick}
                   className="block w-full outline-none"
                 >
                   <div className="bg-gradient-to-r from-emerald-600 to-blue-600 rounded-2xl p-[2px] hover:scale-[1.02] active:scale-[0.98] transition-all shadow-[0_0_40px_rgba(16,185,129,0.2)] hover:shadow-[0_0_60px_rgba(16,185,129,0.4)] cursor-pointer group">
                     <div className="bg-gray-900 rounded-xl p-5 sm:p-7 flex items-center justify-between overflow-hidden relative h-full w-full">
                       <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-700"></div>
                       <div className="flex items-center gap-5 sm:gap-7 relative z-10">
-                        <div className="w-14 h-14 sm:w-16 sm:h-16 bg-white/10 rounded-full flex items-center justify-center shrink-0 border border-white/5 shadow-inner">
-                          <Download className="w-7 h-7 sm:w-8 sm:h-8 text-emerald-400" />
+                        <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center shrink-0 border border-white/5 shadow-inner transition-colors duration-300 ${isStarting ? "bg-emerald-500/20 text-emerald-400" : "bg-white/10 text-emerald-400"}`}>
+                          {isStarting ? (
+                            <Loader2 className="w-7 h-7 sm:w-8 sm:h-8 animate-spin text-emerald-400" />
+                          ) : (
+                            <Download className="w-7 h-7 sm:w-8 sm:h-8 text-emerald-400 group-hover:translate-y-0.5 transition-transform" />
+                          )}
                         </div>
                         <div className="text-left flex flex-col gap-1">
-                          <div className="text-white font-black text-xl sm:text-2xl tracking-wide">DOWNLOAD APP</div>
-                          <div className="text-emerald-100/80 text-xs sm:text-sm font-medium">Download Mugu Market for Android</div>
+                          <div className="text-white font-black text-xl sm:text-2xl tracking-wide flex items-center gap-2">
+                            {isStarting ? "DOWNLOADING..." : "DOWNLOAD APP"}
+                          </div>
+                          <div className="text-emerald-100/80 text-xs sm:text-sm font-medium">
+                            {isStarting ? "Downloading APK to your device..." : "Download Mugu Market for Android"}
+                          </div>
                         </div>
                       </div>
                     </div>

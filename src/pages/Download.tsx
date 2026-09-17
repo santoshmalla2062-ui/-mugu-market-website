@@ -1,6 +1,7 @@
+import { useState } from "react";
 import { APP_CONFIG } from "@/config";
 import { Button } from "@/components/ui/button";
-import { Download as DownloadIcon, Smartphone, CheckCircle, Shield, FileBox, Image as ImageIcon } from "lucide-react";
+import { Download as DownloadIcon, Smartphone, CheckCircle, Shield, FileBox, Image as ImageIcon, Loader2 } from "lucide-react";
 import { motion } from "motion/react";
 import { useSettings } from "@/hooks/useSettings";
 import { getDirectApkUrl } from "@/lib/apk";
@@ -9,6 +10,14 @@ export default function Download() {
   const { settings } = useSettings();
   const rawApkUrl = !settings.loading ? settings.apkUrl : APP_CONFIG.APK_DOWNLOAD_URL;
   const apkUrl = getDirectApkUrl(rawApkUrl);
+  const [isStarting, setIsStarting] = useState(false);
+
+  const handleDownloadClick = () => {
+    setIsStarting(true);
+    setTimeout(() => {
+      setIsStarting(false);
+    }, 4000);
+  };
 
   return (
     <div className="flex flex-col min-h-[calc(100vh-80px)] pt-10 pb-20 relative">
@@ -41,6 +50,7 @@ export default function Download() {
                   target={apkUrl.startsWith("/") ? undefined : "_blank"} 
                   rel="noopener noreferrer" 
                   download="Hamro-Mugu-Market.apk"
+                  onClick={handleDownloadClick}
                   className="block w-full outline-none"
                 >
                   <div className="bg-gradient-to-r from-blue-600 to-blue-500 rounded-3xl p-[2px] hover:scale-[1.02] active:scale-[0.98] transition-all shadow-[0_0_50px_rgba(59,130,246,0.3)] hover:shadow-[0_0_80px_rgba(59,130,246,0.5)] cursor-pointer group">
@@ -48,11 +58,19 @@ export default function Download() {
                       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-white/20 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
                       <div className="relative z-10 flex flex-col items-center gap-5">
                         <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white/20 rounded-full flex items-center justify-center mb-1 shadow-inner">
-                          <DownloadIcon className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
+                          {isStarting ? (
+                            <Loader2 className="w-8 h-8 sm:w-10 sm:h-10 animate-spin text-white" />
+                          ) : (
+                            <DownloadIcon className="w-8 h-8 sm:w-10 sm:h-10 text-white group-hover:translate-y-0.5 transition-transform" />
+                          )}
                         </div>
                         <div className="flex flex-col gap-2">
-                          <div className="text-white font-black text-2xl sm:text-3xl tracking-wide">DOWNLOAD APP</div>
-                          <div className="text-blue-100 text-sm font-medium">Fast, direct download from the official Mugu Nepal website.</div>
+                          <div className="text-white font-black text-2xl sm:text-3xl tracking-wide flex items-center justify-center gap-3">
+                            {isStarting ? "DOWNLOADING..." : "DOWNLOAD APP"}
+                          </div>
+                          <div className="text-blue-100 text-sm font-medium">
+                            {isStarting ? "APK file is downloading directly to your device..." : "Fast, direct download from the official Mugu Nepal website."}
+                          </div>
                         </div>
                       </div>
                     </div>
