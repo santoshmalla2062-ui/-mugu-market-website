@@ -6,10 +6,12 @@ import { Button } from "@/components/ui/button";
 
 import bgImage from "@/assets/images/sunset_valley_1788081186609.jpg";
 import { useSettings } from "@/hooks/useSettings";
+import { getDirectApkUrl } from "@/lib/apk";
 
 export function Hero() {
   const { settings } = useSettings();
-  const apkUrl = !settings.loading ? settings.apkUrl : APP_CONFIG.APK_DOWNLOAD_URL;
+  const rawApkUrl = !settings.loading ? settings.apkUrl : APP_CONFIG.APK_DOWNLOAD_URL;
+  const apkUrl = getDirectApkUrl(rawApkUrl);
 
   return (
     <section className="relative overflow-hidden min-h-[calc(100vh-80px)] flex items-center pt-16 md:pt-0 pb-16">
@@ -49,24 +51,31 @@ export function Hero() {
               </span>
             </h1>
             
-            <p className="text-base sm:text-lg text-gray-400 mb-10 max-w-lg leading-relaxed">
+            <p className="text-base sm:text-lg text-gray-400 mb-8 max-w-lg leading-relaxed">
               A dedicated marketplace platform for customers, sellers, and dealers in Mugu. <br className="hidden sm:block" />
               <span className="text-gray-300 mt-2 block">Shop local, sell better, and manage wholesale with ease.</span>
             </p>
             
-            <div className="flex flex-col gap-6 w-full sm:max-w-md">
+            {/* Download App Action Section with clear spacing and breathing room */}
+            <div className="flex flex-col gap-6 w-full sm:max-w-md pt-2 mt-4">
               {apkUrl ? (
-                <a href={apkUrl} target="_blank" rel="noopener noreferrer" className="block w-full outline-none">
+                <a 
+                  href={apkUrl} 
+                  target={apkUrl.startsWith("/") ? undefined : "_blank"} 
+                  rel="noopener noreferrer" 
+                  download="Hamro-Mugu-Market.apk"
+                  className="block w-full outline-none"
+                >
                   <div className="bg-gradient-to-r from-emerald-600 to-blue-600 rounded-2xl p-[2px] hover:scale-[1.02] active:scale-[0.98] transition-all shadow-[0_0_40px_rgba(16,185,129,0.2)] hover:shadow-[0_0_60px_rgba(16,185,129,0.4)] cursor-pointer group">
-                    <div className="bg-gray-900 rounded-xl p-4 sm:p-6 flex items-center justify-between overflow-hidden relative h-full w-full">
+                    <div className="bg-gray-900 rounded-xl p-5 sm:p-7 flex items-center justify-between overflow-hidden relative h-full w-full">
                       <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-700"></div>
-                      <div className="flex items-center gap-4 sm:gap-6 relative z-10">
-                        <div className="w-12 h-12 sm:w-16 sm:h-16 bg-white/10 rounded-full flex items-center justify-center shrink-0 border border-white/5">
-                          <Download className="w-6 h-6 sm:w-8 sm:h-8 text-emerald-400" />
+                      <div className="flex items-center gap-5 sm:gap-7 relative z-10">
+                        <div className="w-14 h-14 sm:w-16 sm:h-16 bg-white/10 rounded-full flex items-center justify-center shrink-0 border border-white/5 shadow-inner">
+                          <Download className="w-7 h-7 sm:w-8 sm:h-8 text-emerald-400" />
                         </div>
-                        <div className="text-left">
-                          <div className="text-white font-black text-xl sm:text-2xl tracking-tight mb-1">DOWNLOAD APK</div>
-                          <div className="text-emerald-100/70 text-xs sm:text-sm font-medium">Download Mugu Market for Android</div>
+                        <div className="text-left flex flex-col gap-1">
+                          <div className="text-white font-black text-xl sm:text-2xl tracking-wide">DOWNLOAD APP</div>
+                          <div className="text-emerald-100/80 text-xs sm:text-sm font-medium">Download Mugu Market for Android</div>
                         </div>
                       </div>
                     </div>
@@ -75,13 +84,13 @@ export function Hero() {
               ) : (
                 <div className="block w-full">
                   <div className="bg-gray-800/80 rounded-2xl p-[2px] shadow-lg group opacity-80 backdrop-blur-sm border border-white/5">
-                    <div className="bg-gray-900/50 rounded-xl p-4 sm:p-6 flex items-center justify-between overflow-hidden relative h-full w-full">
-                      <div className="flex items-center gap-4 sm:gap-6 relative z-10">
-                        <div className="w-12 h-12 sm:w-16 sm:h-16 bg-white/5 rounded-full flex items-center justify-center shrink-0 border border-white/5">
-                          <Download className="w-6 h-6 sm:w-8 sm:h-8 text-gray-500" />
+                    <div className="bg-gray-900/50 rounded-xl p-5 sm:p-7 flex items-center justify-between overflow-hidden relative h-full w-full">
+                      <div className="flex items-center gap-5 sm:gap-7 relative z-10">
+                        <div className="w-14 h-14 sm:w-16 sm:h-16 bg-white/5 rounded-full flex items-center justify-center shrink-0 border border-white/5">
+                          <Download className="w-7 h-7 sm:w-8 sm:h-8 text-gray-500" />
                         </div>
-                        <div className="text-left">
-                          <div className="text-gray-400 font-black text-xl sm:text-2xl tracking-tight mb-1">APK COMING SOON</div>
+                        <div className="text-left flex flex-col gap-1">
+                          <div className="text-gray-400 font-black text-xl sm:text-2xl tracking-wide">APP COMING SOON</div>
                           <div className="text-gray-500 text-xs sm:text-sm font-medium">Download Mugu Market for Android</div>
                         </div>
                       </div>

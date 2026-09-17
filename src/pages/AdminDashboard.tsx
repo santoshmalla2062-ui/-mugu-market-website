@@ -177,7 +177,7 @@ export default function AdminDashboard() {
           canvas.height = height;
           const ctx = canvas.getContext("2d");
           ctx?.drawImage(img, 0, 0, width, height);
-          resolve(canvas.toDataURL("image/jpeg", 0.5));
+          resolve(canvas.toDataURL("image/webp", 0.4));
         };
         img.onerror = (error) => reject(new Error("Failed to read image file."));
       };
@@ -300,8 +300,8 @@ export default function AdminDashboard() {
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
             {images.map((img) => (
-              <div key={img.id} className="group relative aspect-square bg-black rounded-xl overflow-hidden border border-white/10">
-                <img src={img.imageUrl} alt="Gallery" className="w-full h-full object-cover" />
+              <div key={img.id} className="group relative aspect-square bg-gray-900 rounded-xl overflow-hidden border border-white/10 flex items-center justify-center">
+                <img src={img.imageUrl} alt="Gallery" className="w-full h-full object-contain" />
                 <div className="absolute top-2 right-2 z-10 flex flex-col gap-2">
                   {confirmDeleteId === img.id ? (
                     <div className="bg-red-500/90 text-white rounded-lg p-2 shadow-lg backdrop-blur-sm flex items-center gap-2">

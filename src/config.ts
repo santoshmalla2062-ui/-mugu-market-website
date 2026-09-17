@@ -1,17 +1,15 @@
 export const APP_CONFIG = {
   BRAND_NAME: "Hamro Mugu",
   
-  // IMPORTANT: APK HOSTING CONFIGURATION
-  // Place your real APK at: public/downloads/mugu-local-market.apk
-  // Then replace this empty string with: "/downloads/mugu-local-market.apk"
-  // Leaving it empty safely disables the download buttons.
-  APK_DOWNLOAD_URL: "",
+  // Real 29MB APK hosted directly on the site for instant, seamless 1-click download:
+  APK_DOWNLOAD_URL: "/downloads/mugu-local-market.apk",
+  // Backup Google Drive URL: "https://drive.google.com/file/d/1dNb_kILfs4UyiiIJnoFvQyD_Sv4CQ40V/view?usp=sharing",
   
   APP_NAME: "Hamro Mugu App",
   APP_VERSION: "1.0.0",
-  APK_FILE_SIZE: "24.5 MB",
-  APK_LAST_UPDATED: "August 2026",
-  LAST_UPDATED: "August 2026",
+  APK_FILE_SIZE: "29 MB",
+  APK_LAST_UPDATED: "September 2026",
+  LAST_UPDATED: "September 2026",
   
   CONTACT: {
     PHONE: "[Your Phone Number]",

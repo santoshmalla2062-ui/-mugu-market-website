@@ -3,6 +3,7 @@ import { APP_CONFIG } from "@/config";
 import { Download, Store, Smartphone, Globe, ExternalLink, Box } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useSettings } from "@/hooks/useSettings";
+import { getDirectApkUrl } from "@/lib/apk";
 
 // Helper to map string icon names to Lucide components safely
 const getIcon = (iconName: string) => {
@@ -16,7 +17,8 @@ const getIcon = (iconName: string) => {
 
 export function AppsAndServices() {
   const { settings } = useSettings();
-  const apkUrl = !settings.loading ? settings.apkUrl : APP_CONFIG.APK_DOWNLOAD_URL;
+  const rawApkUrl = !settings.loading ? settings.apkUrl : APP_CONFIG.APK_DOWNLOAD_URL;
+  const apkUrl = getDirectApkUrl(rawApkUrl);
   
   // Core apps always come from config
   const coreApps = APP_CONFIG.SERVICES;
@@ -36,8 +38,8 @@ export function AppsAndServices() {
 
   const renderAppCard = (service: any, index: number) => {
     const IconComponent = getIcon(service.icon);
-    // If the service has a custom APK link, use it. Otherwise, if it uses the global one, use the global apkUrl.
-    const downloadLink = service.customApkUrl ? service.customApkUrl : (service.useGlobalApkUrl !== false ? apkUrl : undefined);
+    const rawDownloadLink = service.customApkUrl ? service.customApkUrl : (service.useGlobalApkUrl !== false ? apkUrl : undefined);
+    const downloadLink = rawDownloadLink ? getDirectApkUrl(rawDownloadLink) : undefined;
     const isAvailable = service.status === "Available";
 
     return (
@@ -77,11 +79,13 @@ export function AppsAndServices() {
           {downloadLink ? (
             <a 
               href={downloadLink}
-              target="_blank" rel="noopener noreferrer"
+              target={downloadLink.startsWith("/") ? undefined : "_blank"} 
+              rel="noopener noreferrer"
+              download="Hamro-Mugu-Market.apk"
               className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white py-2.5 rounded-xl text-sm font-semibold transition-colors"
             >
               <Download className="w-4 h-4" />
-              Download APK
+              Download App
             </a>
           ) : (!isAvailable || (service.useGlobalApkUrl === false && !service.customApkUrl)) ? (
             <button 
@@ -89,7 +93,7 @@ export function AppsAndServices() {
               className="w-full flex items-center justify-center gap-2 bg-gray-800 text-gray-500 py-2.5 rounded-xl text-sm font-semibold cursor-not-allowed"
             >
               <Download className="w-4 h-4" />
-              APK Coming Soon
+              Coming Soon
             </button>
           ) : null}
 

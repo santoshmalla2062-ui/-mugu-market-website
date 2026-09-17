@@ -3,10 +3,12 @@ import { Button } from "@/components/ui/button";
 import { Download as DownloadIcon, Smartphone, CheckCircle, Shield, FileBox, Image as ImageIcon } from "lucide-react";
 import { motion } from "motion/react";
 import { useSettings } from "@/hooks/useSettings";
+import { getDirectApkUrl } from "@/lib/apk";
 
 export default function Download() {
   const { settings } = useSettings();
-  const apkUrl = !settings.loading ? settings.apkUrl : APP_CONFIG.APK_DOWNLOAD_URL;
+  const rawApkUrl = !settings.loading ? settings.apkUrl : APP_CONFIG.APK_DOWNLOAD_URL;
+  const apkUrl = getDirectApkUrl(rawApkUrl);
 
   return (
     <div className="flex flex-col min-h-[calc(100vh-80px)] pt-10 pb-20 relative">
@@ -32,18 +34,24 @@ export default function Download() {
               <p className="text-blue-400 font-semibold tracking-wide uppercase">Official Android App</p>
             </div>
 
-            <div className="mb-10">
+            <div className="mt-8 mb-12">
               {apkUrl ? (
-                <a href={apkUrl} target="_blank" rel="noopener noreferrer" className="block w-full outline-none">
+                <a 
+                  href={apkUrl} 
+                  target={apkUrl.startsWith("/") ? undefined : "_blank"} 
+                  rel="noopener noreferrer" 
+                  download="Hamro-Mugu-Market.apk"
+                  className="block w-full outline-none"
+                >
                   <div className="bg-gradient-to-r from-blue-600 to-blue-500 rounded-3xl p-[2px] hover:scale-[1.02] active:scale-[0.98] transition-all shadow-[0_0_50px_rgba(59,130,246,0.3)] hover:shadow-[0_0_80px_rgba(59,130,246,0.5)] cursor-pointer group">
-                    <div className="bg-blue-600 rounded-[22px] p-6 sm:p-8 flex flex-col items-center justify-center overflow-hidden relative w-full text-center">
+                    <div className="bg-blue-600 rounded-[22px] p-8 sm:p-10 flex flex-col items-center justify-center overflow-hidden relative w-full text-center">
                       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-white/20 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
-                      <div className="relative z-10 flex flex-col items-center gap-4">
-                        <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white/20 rounded-full flex items-center justify-center mb-2">
+                      <div className="relative z-10 flex flex-col items-center gap-5">
+                        <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white/20 rounded-full flex items-center justify-center mb-1 shadow-inner">
                           <DownloadIcon className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
                         </div>
-                        <div>
-                          <div className="text-white font-black text-2xl sm:text-3xl tracking-tight mb-2">DOWNLOAD APK</div>
+                        <div className="flex flex-col gap-2">
+                          <div className="text-white font-black text-2xl sm:text-3xl tracking-wide">DOWNLOAD APP</div>
                           <div className="text-blue-100 text-sm font-medium">Fast, direct download from the official Mugu Nepal website.</div>
                         </div>
                       </div>
@@ -53,13 +61,13 @@ export default function Download() {
               ) : (
                 <div className="block w-full">
                   <div className="bg-gray-800 rounded-3xl p-[2px] shadow-lg group opacity-80">
-                    <div className="bg-gray-900 rounded-[22px] p-6 sm:p-8 flex flex-col items-center justify-center overflow-hidden relative w-full text-center">
-                      <div className="relative z-10 flex flex-col items-center gap-4">
-                        <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white/5 rounded-full flex items-center justify-center mb-2">
+                    <div className="bg-gray-900 rounded-[22px] p-8 sm:p-10 flex flex-col items-center justify-center overflow-hidden relative w-full text-center">
+                      <div className="relative z-10 flex flex-col items-center gap-5">
+                        <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white/5 rounded-full flex items-center justify-center mb-1">
                           <DownloadIcon className="w-8 h-8 sm:w-10 sm:h-10 text-gray-500" />
                         </div>
-                        <div>
-                          <div className="text-gray-400 font-black text-2xl sm:text-3xl tracking-tight mb-2">APK COMING SOON</div>
+                        <div className="flex flex-col gap-2">
+                          <div className="text-gray-400 font-black text-2xl sm:text-3xl tracking-wide">APP COMING SOON</div>
                           <div className="text-gray-500 text-sm font-medium">Fast, direct download from the official Mugu Nepal website.</div>
                         </div>
                       </div>
@@ -150,14 +158,14 @@ export default function Download() {
               <div className="flex gap-4">
                 <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-500/10 text-blue-400 flex items-center justify-center font-bold">1</div>
                 <div>
-                  <h3 className="font-medium text-white mt-1">Download APK</h3>
+                  <h3 className="font-medium text-white mt-1">Download App</h3>
                 </div>
               </div>
               
               <div className="flex gap-4">
                 <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-500/10 text-blue-400 flex items-center justify-center font-bold">2</div>
                 <div>
-                  <h3 className="font-medium text-white mt-1">Open downloaded APK</h3>
+                  <h3 className="font-medium text-white mt-1">Open downloaded file</h3>
                 </div>
               </div>
               

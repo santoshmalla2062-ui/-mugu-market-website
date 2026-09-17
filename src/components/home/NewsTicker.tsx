@@ -48,7 +48,7 @@ export function NewsTicker() {
             100% { transform: translateX(-10%); }
           }
           .animate-ticker-scroll {
-            animation: ticker-scroll 30s linear infinite;
+            animation: ticker-scroll 20s linear infinite;
             display: flex;
             width: max-content;
           }
@@ -67,14 +67,14 @@ export function NewsTicker() {
               {tickerItems.map((item, index) => {
                 const Icon = getIcon(item.icon);
                 return (
-                  <div key={index} className="flex items-center gap-2 mx-6 sm:mx-10 group cursor-pointer">
+                  <div key={index} className="flex items-center gap-2 mx-3 sm:mx-6 group cursor-pointer">
                     <div className={`p-1.5 rounded-full bg-white/5 ${item.color} transition-colors`}>
-                      <Icon className="w-3.5 h-3.5 transition-transform" />
+                      <Icon className="w-5 h-5 transition-transform" />
                     </div>
-                    <span className={`text-sm font-medium ${item.textColor || item.color || 'text-gray-300'} transition-colors whitespace-nowrap tracking-wide`}>
+                    <span className={`text-lg md:text-xl font-bold ${item.textColor || item.color || 'text-gray-300'} transition-colors whitespace-nowrap tracking-wide`}>
                       {item.text}
                     </span>
-                    <div className="w-1.5 h-1.5 rounded-full bg-white/10 mx-6 shadow-[0_0_10px_rgba(255,255,255,0.2)]"></div>
+                    <div className="w-1.5 h-1.5 rounded-full bg-white/10 mx-3 shadow-[0_0_10px_rgba(255,255,255,0.2)]"></div>
                   </div>
                 );
               })}

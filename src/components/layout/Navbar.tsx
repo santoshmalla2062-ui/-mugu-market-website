@@ -31,15 +31,12 @@ export function Navbar() {
           </nav>
 
           <div className="flex items-center gap-2 sm:gap-4">
-            <Button variant="outline" asChild className="rounded-full text-xs font-semibold px-3 sm:px-5 border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10">
-              <Link to="/design-preview">डिजाइन</Link>
-            </Button>
             <Button variant="outline" asChild className="hidden sm:inline-flex rounded-full text-xs font-semibold px-5">
               <Link to="/terms">TERMS</Link>
             </Button>
-            <Button asChild className="hidden sm:inline-flex rounded-full text-xs font-bold px-5">
+            <Button asChild className="inline-flex rounded-full text-xs font-bold px-4 sm:px-6">
               <Link to="/download">
-                GET APK
+                GET APP
               </Link>
             </Button>
           </div>

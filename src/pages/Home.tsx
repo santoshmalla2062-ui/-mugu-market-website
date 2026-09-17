@@ -5,12 +5,14 @@ import { AppsAndServices } from "../components/home/AppsAndServices";
 import { WhyChooseUs } from "../components/home/WhyChooseUs";
 import { Screenshots } from "../components/home/Screenshots";
 import { ImageGallery } from "../components/home/ImageGallery";
+import { AppShowcase } from "../components/home/AppShowcase";
 
 export default function Home() {
   return (
     <div className="bg-[#0a0c14] min-h-screen text-gray-50 font-sans selection:bg-emerald-500/30 selection:text-emerald-200">
       <NewsTicker />
       <Hero />
+      <AppShowcase />
       <ImageGallery />
       <AppsAndServices />
       <WhyChooseUs />
