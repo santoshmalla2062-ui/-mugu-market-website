@@ -30,10 +30,10 @@ export function NewsTicker() {
   // Fallback default
   if (tickerItems.length === 0) {
     tickerItems = [
-      { text: "स्वागत छ हाम्रो मुगु लोकल मार्केटमा! 🏔️", icon: "Sparkles", color: "text-yellow-400", textColor: "text-gray-300" },
-      { text: "अब आफ्नै गाउँ-ठाउँको अनलाइन बजार, सबै सामान घरमै।", icon: "Zap", color: "text-emerald-400", textColor: "text-gray-300" },
-      { text: "आजै 'Hamro Mugu Market' एप डाउनलोड गर्नुहोस्!", icon: "Megaphone", color: "text-blue-400", textColor: "text-gray-300" },
-      { text: "सम्पर्क: " + (settings?.phone || "९८४८......"), icon: "Zap", color: "text-green-400", textColor: "text-gray-300" }
+      { text: "मुगु, हुम्ला र जुम्लाका अग्र्यानिक उत्पादन अब सिधै काठमाडौँ, पोखरा र देशभर डेलिभरी! 🏔️", icon: "Sparkles", color: "text-yellow-400", textColor: "text-gray-300" },
+      { text: "मार्सी चामल, सिमी, शुद्ध घिउ, राराको मह, ओखर र स्याउ सुकुटी थोक तथा खुद्रा उपलब्ध।", icon: "Zap", color: "text-emerald-400", textColor: "text-gray-300" },
+      { text: "मुगु, हुम्ला र जुम्लाका किसानबाट सिधै कोसेली मगाउन 'Hamro Mugu Market' एप डाउनलोड गर्नुहोस्!", icon: "Megaphone", color: "text-blue-400", textColor: "text-gray-300" },
+      { text: "थोक अर्डर तथा ढुवानी सोधपुछका लागि सम्पर्क गर्नुहोस्।", icon: "Zap", color: "text-green-400", textColor: "text-gray-300" }
     ];
   }
 

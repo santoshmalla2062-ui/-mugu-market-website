@@ -6,6 +6,9 @@ import { WhyChooseUs } from "../components/home/WhyChooseUs";
 import { Screenshots } from "../components/home/Screenshots";
 import { ImageGallery } from "../components/home/ImageGallery";
 import { AppShowcase } from "../components/home/AppShowcase";
+import { LocalProduceSection } from "../components/home/LocalProduceSection";
+import { DirectContactSection } from "../components/home/DirectContactSection";
+import { PwaInstallPrompt } from "../components/home/PwaInstallPrompt";
 
 export default function Home() {
   return (
@@ -13,11 +16,14 @@ export default function Home() {
       <NewsTicker />
       <Hero />
       <AppShowcase />
+      <LocalProduceSection />
       <ImageGallery />
       <AppsAndServices />
       <WhyChooseUs />
       <Screenshots />
+      <DirectContactSection />
       <About />
+      <PwaInstallPrompt />
     </div>
   );
 }

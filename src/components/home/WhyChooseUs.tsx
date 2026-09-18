@@ -4,28 +4,28 @@ import { Package, Store, Boxes, Smartphone, ShoppingCart } from "lucide-react";
 const reasons = [
   {
     icon: Package,
-    title: "Mugu का स्थानीय उत्पादन",
-    desc: "Promoting and distributing authentic local products directly from Mugu to the consumers.",
+    title: "Pure Mountain Harvest (शुद्ध उत्पादन)",
+    desc: "Organic red rice (मार्सी), high-altitude apples, mountain beans, ghee, and Rara honey grown naturally in the Himalayas.",
   },
   {
     icon: Store,
-    title: "Local Sellers Empowered",
-    desc: "Providing a modern digital storefront for small businesses to reach a wider audience effortlessly.",
+    title: "Empowering Local Farmers (किसानलाई मूल्य)",
+    desc: "Direct market connection eliminating middlemen so mountain growers receive fair, dignified earnings for their harvest.",
   },
   {
     icon: Boxes,
-    title: "Wholesale Opportunity",
-    desc: "Direct and efficient connections between bulk dealers and shop owners for seamless B2B trading.",
+    title: "Wholesale & Bulk Supply (थोक आपूर्ति)",
+    desc: "Streamlined supply pipelines for organic shops, grocery marts, and restaurants across Kathmandu, Pokhara, and major cities.",
   },
   {
     icon: Smartphone,
-    title: "Digital Marketplace",
-    desc: "Bringing traditional commerce into the digital age with a unified, transparent platform.",
+    title: "Digital Transparency (पारदर्शी दर)",
+    desc: "Real-time mandi prices, trader directory, and verified contacts directly accessible via our mobile app.",
   },
   {
     icon: ShoppingCart,
-    title: "Customer-Friendly Ordering",
-    desc: "An easy, fast, and secure purchasing process designed specifically for a smooth mobile experience.",
+    title: "Nationwide Doorstep Delivery (देशभर डेलिभरी)",
+    desc: "Enjoy authentic, untainted Himalayan gifts delivered straight to your home anywhere in Nepal.",
   }
 ];
 
@@ -39,16 +39,16 @@ export function WhyChooseUs() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="lg:col-span-1 lg:sticky lg:top-32"
+            className="lg:col-span-1 lg:sticky lg:top-32 text-left"
           >
             <div className="inline-flex items-center gap-1.5 bg-blue-500/10 border border-blue-500/20 rounded-full px-4 py-1.5 mb-6">
-              <span className="text-[10px] font-bold text-blue-400 tracking-wider uppercase">Why Choose Us</span>
+              <span className="text-[10px] font-bold text-blue-400 tracking-wider uppercase">Our Core Mission</span>
             </div>
             <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl mb-4">
-              Why Mugu Local Market?
+              Why Karnali Mountain Produce?
             </h2>
-            <p className="text-lg text-gray-400 mb-8 leading-relaxed">
-              We are more than just an app. We are building a digital infrastructure that uplifts the entire local economy, making commerce accessible and profitable for everyone in Mugu.
+            <p className="text-base text-gray-400 mb-8 leading-relaxed">
+              Our vision is to bridge the distance between Karnali and the rest of Nepal — bringing high-value organic crops from Mugu and Humla to urban households and commercial markets at fair, transparent rates.
             </p>
           </motion.div>
 
@@ -59,18 +59,14 @@ export function WhyChooseUs() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className={`apk-card p-6 flex flex-col group hover:bg-white/5 hover:border-blue-500/30 hover:shadow-[0_0_30px_rgba(59,130,246,0.1)] transition-all duration-300 ${
-                  index === reasons.length - 1 && reasons.length % 2 !== 0 ? 'sm:col-span-2' : ''
-                }`}
+                transition={{ duration: 0.4, delay: index * 0.1 }}
+                className="apk-card p-6 flex flex-col justify-start text-left"
               >
-                <div className="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-blue-500/20 group-hover:text-blue-300 transition-all duration-300">
-                  <reason.icon className="w-6 h-6 text-blue-400 group-hover:text-blue-300" />
+                <div className="w-10 h-10 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mb-4 text-blue-400">
+                  <reason.icon className="w-5 h-5" />
                 </div>
-                <h3 className="text-lg font-bold text-white mb-3 group-hover:text-blue-100 transition-colors">{reason.title}</h3>
-                <p className="text-sm text-gray-400 leading-relaxed">
-                  {reason.desc}
-                </p>
+                <h3 className="text-base font-bold text-white mb-2">{reason.title}</h3>
+                <p className="text-sm text-gray-400 leading-relaxed">{reason.desc}</p>
               </motion.div>
             ))}
           </div>

@@ -78,19 +78,19 @@ export function About() {
           >
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-500/10 border border-blue-500/20 rounded-full text-blue-400 text-xs font-semibold mb-4">
               <MapPin className="w-3.5 h-3.5" />
-              Mugu, Nepal
+              Mugu & Humla, Karnali Province
             </div>
             
             <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl mb-6 font-display">
-              Empowering Mugu's Local Economy
+              Connecting Karnali’s Heritage to Nepal
             </h2>
             <p className="text-base text-gray-300 mb-6 leading-relaxed">
-              Mugu Local Market is a digital platform built specifically for our community. Our main goal is to bridge the gap between local customers, small shopkeepers, and large wholesale dealers across Mugu, bringing them all under one digital umbrella.
+              Mugu and Humla are renowned for pure, high-altitude organic produce. Our mission is to directly connect mountain farmers and collectors with consumers, organic stores, and wholesale businesses in Kathmandu, Pokhara, Butwal, and beyond.
             </p>
             
             <div className="bg-blue-500/10 border border-blue-500/20 rounded-xl p-5 md:p-6 mb-8 shadow-lg">
-              <p className="text-lg md:text-xl text-blue-200 leading-relaxed font-semibold italic">
-                "हामी एउटा एप मात्र होइनौं। हामी यस्तो डिजिटल पूर्वाधार निर्माण गर्दैछौं जसले सम्पूर्ण स्थानीय उत्पादन र कृषिलाई व्यवस्थित बनाउँछ भने यसले हामी सबैका लागि व्यापारमा पहुँच र आर्थिक रूपमा बलियो बनाउन मद्दत पुर्याउनेछ।"
+              <p className="text-base md:text-lg text-blue-200 leading-relaxed font-medium italic">
+                "Direct from the Himalayas to your doorstep — empowering local farmers with fair value while delivering genuine organic food to city homes."
               </p>
             </div>
             
@@ -100,8 +100,8 @@ export function About() {
                   <Users className="w-5 h-5 text-blue-400" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-white">For Customers</h4>
-                  <p className="text-xs text-gray-400 mt-1">Browse and purchase products from all shops in Mugu and Soru right from your home.</p>
+                  <h4 className="text-sm font-bold text-white">For Consumers (उपभोक्ता)</h4>
+                  <p className="text-xs text-gray-400 mt-1">Order 100% pure Himalayan organic produce directly to your home in Kathmandu or any city in Nepal.</p>
                 </div>
               </div>
               <div className="flex items-start gap-4 apk-card p-4 hover:border-emerald-500/30 transition-all">
@@ -109,8 +109,8 @@ export function About() {
                   <Store className="w-5 h-5 text-emerald-400" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-white">For Local Sellers</h4>
-                  <p className="text-xs text-gray-400 mt-1">Digitize your shop and reach more customers across the district.</p>
+                  <h4 className="text-sm font-bold text-white">For Farmers & Cooperatives (कृषक तथा संकलक)</h4>
+                  <p className="text-xs text-gray-400 mt-1">Direct market linkage without middlemen, unlocking premium prices across metropolitan markets.</p>
                 </div>
               </div>
               <div className="flex items-start gap-4 apk-card p-4 hover:border-purple-500/30 transition-all">
@@ -118,8 +118,8 @@ export function About() {
                   <Handshake className="w-5 h-5 text-purple-400" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-white">For Wholesale Dealers</h4>
-                  <p className="text-xs text-gray-400 mt-1">A transparent and fast medium to supply bulk goods to village shops.</p>
+                  <h4 className="text-sm font-bold text-white">For Wholesale Marts & Brands (थोक तथा मार्ट)</h4>
+                  <p className="text-xs text-gray-400 mt-1">Direct B2B supply pipeline for organic grocery stores, supermarkets, and restaurants.</p>
                 </div>
               </div>
             </div>

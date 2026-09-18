@@ -18,10 +18,10 @@ import { Link } from "react-router-dom";
 
 export function AppShowcase() {
   const categories = [
-    { name: "Mugu Apples (मुगुको स्याउ)", tag: "ताजा उत्पादन", icon: "🍎", count: "12+ प्रजाति", image: "/extracted_apples.jpg" },
-    { name: "Organic Walnuts (ओखर)", tag: "प्राङ्गारिक", icon: "🥜", count: "स्थानीय उत्पादन", image: "/extracted_walnuts.jpg" },
-    { name: "Rara Tourism & Hotels", tag: "रारा भ्रमण", icon: "🏔️", count: "होटल र गाइड", image: "/extracted_rara.jpg" },
-    { name: "Local Handicrafts & Herbs", tag: "जडीबुटी र हस्तकला", icon: "🌿", count: "शुद्ध हिमाली", image: herbsImg },
+    { name: "Mugu Apples (मुगुको स्याउ)", tag: "Fresh Harvest", icon: "🍎", count: "12+ Varieties", image: "/extracted_apples.jpg" },
+    { name: "Organic Walnuts (ओखर)", tag: "100% Organic", icon: "🥜", count: "Local Harvest", image: "/extracted_walnuts.jpg" },
+    { name: "Rara Tourism & Hotels", tag: "Travel & Stay", icon: "🏔️", count: "Hotels & Guides", image: "/extracted_rara.jpg" },
+    { name: "Local Handicrafts & Herbs", tag: "High Altitude", icon: "🌿", count: "Pure Himalayan", image: herbsImg },
   ];
 
   const appModules = [
@@ -91,11 +91,14 @@ export function AppShowcase() {
             <Sparkles className="w-4 h-4 text-emerald-400" />
             <span className="text-xs font-bold text-emerald-400 tracking-wider uppercase">Inside The Official Android App</span>
           </div>
-          <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white mb-4">
-            हाम्रो मुगु एपभित्र के-के छ?
+          <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white mb-4 leading-tight">
+            App Features & Ecosystem
+            <span className="block text-2xl sm:text-3xl text-emerald-400 font-semibold mt-2">
+              एपका मुख्य विशेषताहरू
+            </span>
           </h2>
           <p className="text-base sm:text-lg text-gray-400 leading-relaxed">
-            तपाईंको एन्ड्रोइड मोबाइल एपमा ग्राहक, पसले, र डिलर सबैका लागि तयार पारिएका मुख्य फिचर र स्क्रिनहरू:
+            Built specifically for consumers, local producers, and wholesale supply chains across Nepal.
           </p>
         </div>
 
@@ -157,7 +160,7 @@ export function AppShowcase() {
                   <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-xs">
                     <span className="text-gray-400">{cat.count}</span>
                     <span className="text-emerald-400 font-semibold flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
-                      अर्डर उपलब्ध <ChevronRight className="w-3.5 h-3.5" />
+                      Order Available <ChevronRight className="w-3.5 h-3.5" />
                     </span>
                   </div>
                 </div>

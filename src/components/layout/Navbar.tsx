@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { Store, Download } from "lucide-react";
 import { APP_CONFIG } from "@/config";
 import { Button } from "@/components/ui/button";
 import appLogo from "@/assets/images/logo_final_polished_nature_1788511126581.jpg";
@@ -25,18 +24,24 @@ export function Navbar() {
             <a href="/#features" className="text-sm font-medium h-full flex items-center text-gray-400 hover:text-white transition-colors border-b-2 border-transparent hover:border-white/20">
               Features
             </a>
+            <a href="/#produce" className="text-sm font-medium h-full flex items-center text-gray-400 hover:text-white transition-colors border-b-2 border-transparent hover:border-white/20">
+              Products
+            </a>
+            <a href="/#contact-hub" className="text-sm font-medium h-full flex items-center text-emerald-400 hover:text-emerald-300 transition-colors border-b-2 border-transparent hover:border-emerald-400/40">
+              Contact
+            </a>
             <a href="/#about" className="text-sm font-medium h-full flex items-center text-gray-400 hover:text-white transition-colors border-b-2 border-transparent hover:border-white/20">
-              About
+              About Us
             </a>
           </nav>
 
           <div className="flex items-center gap-2 sm:gap-4">
             <Button variant="outline" asChild className="hidden sm:inline-flex rounded-full text-xs font-semibold px-5">
-              <Link to="/terms">TERMS</Link>
+              <Link to="/terms">Terms</Link>
             </Button>
             <Button asChild className="inline-flex rounded-full text-xs font-bold px-4 sm:px-6">
               <Link to="/download">
-                GET APP
+                Get App
               </Link>
             </Button>
           </div>

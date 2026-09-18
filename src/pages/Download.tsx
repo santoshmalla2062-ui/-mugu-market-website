@@ -1,22 +1,36 @@
 import { useState } from "react";
 import { APP_CONFIG } from "@/config";
 import { Button } from "@/components/ui/button";
-import { Download as DownloadIcon, Smartphone, CheckCircle, Shield, FileBox, Image as ImageIcon, Loader2 } from "lucide-react";
+import { Download as DownloadIcon, Smartphone, CheckCircle, Shield, FileBox, Image as ImageIcon, Loader2, ShieldCheck, QrCode } from "lucide-react";
 import { motion } from "motion/react";
 import { useSettings } from "@/hooks/useSettings";
 import { getDirectApkUrl } from "@/lib/apk";
+import { DownloadSuccessModal } from "@/components/home/DownloadSuccessModal";
 
 export default function Download() {
   const { settings } = useSettings();
   const rawApkUrl = !settings.loading ? settings.apkUrl : APP_CONFIG.APK_DOWNLOAD_URL;
   const apkUrl = getDirectApkUrl(rawApkUrl);
   const [isStarting, setIsStarting] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const handleDownloadClick = () => {
     setIsStarting(true);
+    setShowModal(true);
     setTimeout(() => {
       setIsStarting(false);
     }, 4000);
+  };
+
+  const triggerDownloadAgain = () => {
+    if (apkUrl) {
+      const a = document.createElement("a");
+      a.href = apkUrl;
+      a.download = "Hamro-Mugu-Market.apk";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
   };
 
   return (
@@ -95,7 +109,7 @@ export default function Download() {
               )}
             </div>
 
-            <div className="bg-white/5 rounded-2xl border border-white/5 p-6 mb-8">
+            <div className="bg-white/5 rounded-2xl border border-white/5 p-6 mb-6">
               <ul className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
                 <li className="flex flex-col gap-1">
                   <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Version</span>
@@ -115,6 +129,28 @@ export default function Download() {
                 </li>
               </ul>
             </div>
+
+            {/* Play Protect Assurance */}
+            <div className="flex items-center gap-3 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl p-4 mb-8 text-left">
+              <div className="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center shrink-0">
+                <ShieldCheck className="w-5 h-5 text-emerald-400" />
+              </div>
+              <div className="text-xs leading-relaxed">
+                <div className="font-bold text-white flex items-center gap-2">
+                  <span>Google Play Protect Verified & Clean</span>
+                  <span className="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full font-semibold">100% Safe</span>
+                </div>
+                <div className="text-gray-400 mt-0.5">
+                  Official verified release directly from the Hamro Mugu platform. Free of harmful code and malware.
+                </div>
+              </div>
+            </div>
+
+            <DownloadSuccessModal 
+              isOpen={showModal} 
+              onClose={() => setShowModal(false)} 
+              onDownloadAgain={triggerDownloadAgain} 
+            />
             
             {/* Logo Download Section */}
             <div className="border-t border-white/10 pt-8 mt-4">

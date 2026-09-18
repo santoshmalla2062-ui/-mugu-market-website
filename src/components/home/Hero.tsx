@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "motion/react";
-import { Download, ShoppingBag, Loader2 } from "lucide-react";
+import { Download, ShoppingBag, Loader2, ShieldCheck, CheckCircle2, QrCode } from "lucide-react";
 import { Link } from "react-router-dom";
 import { APP_CONFIG } from "@/config";
 import { Button } from "@/components/ui/button";
@@ -8,22 +8,38 @@ import { Button } from "@/components/ui/button";
 import bgImage from "@/assets/images/sunset_valley_1788081186609.jpg";
 import { useSettings } from "@/hooks/useSettings";
 import { getDirectApkUrl } from "@/lib/apk";
+import { DownloadSuccessModal } from "./DownloadSuccessModal";
+import { QrCodeModal } from "./QrCodeModal";
 
 export function Hero() {
   const { settings } = useSettings();
   const rawApkUrl = !settings.loading ? settings.apkUrl : APP_CONFIG.APK_DOWNLOAD_URL;
   const apkUrl = getDirectApkUrl(rawApkUrl);
   const [isStarting, setIsStarting] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [showQrModal, setShowQrModal] = useState(false);
 
   const handleDownloadClick = () => {
     setIsStarting(true);
+    setShowModal(true);
     setTimeout(() => {
       setIsStarting(false);
     }, 4000);
   };
 
+  const triggerDownloadAgain = () => {
+    if (apkUrl) {
+      const a = document.createElement("a");
+      a.href = apkUrl;
+      a.download = "Hamro-Mugu-Market.apk";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+  };
+
   return (
-    <section className="relative overflow-hidden min-h-[calc(100vh-80px)] flex items-center pt-16 md:pt-0 pb-16">
+    <section id="download-section" className="relative overflow-hidden min-h-[calc(100vh-80px)] flex items-center pt-16 md:pt-0 pb-16">
       {/* Background Image of Mugu / Nepal Himalayas */}
       <div 
         className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-40 mix-blend-luminosity"
@@ -46,23 +62,24 @@ export function Hero() {
             className="max-w-xl text-left"
           >
             <div className="inline-block px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-emerald-400 text-[10px] sm:text-xs font-bold uppercase tracking-widest mb-6 backdrop-blur-sm">
-              Mugu's Local Platform • मुगुको आफ्नै लोकल प्लेटफर्म
+              Organic Himalayan Produce • सिधै देशका मुख्य बजारहरूमा
             </div>
             
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-black leading-[1.1] mb-6 tracking-tight text-white">
-              Connecting <br />
+              Connection to <br />
               <span className="bg-gradient-to-r from-emerald-400 via-emerald-300 to-blue-400 bg-clip-text text-transparent">
-                Mugu
+                Karnali
               </span>
               <br />
-              <span className="text-3xl md:text-4xl lg:text-5xl text-gray-200 mt-2 block">
-                मुगुलाई राजधानीसँग जोडौँ
+              <span className="text-2xl sm:text-3xl md:text-4xl text-gray-200 mt-3 block font-semibold">
+                कर्णालीलाई राजधानीसँग जोडौँ
               </span>
             </h1>
             
-            <p className="text-base sm:text-lg text-gray-400 mb-8 max-w-lg leading-relaxed">
-              A dedicated marketplace platform for customers, sellers, and dealers in Mugu. <br className="hidden sm:block" />
-              <span className="text-gray-300 mt-2 block">Shop local, sell better, and manage wholesale with ease.</span>
+            <p className="mb-8 max-w-lg leading-relaxed">
+              <span className="font-semibold text-emerald-400 block text-lg sm:text-xl">
+                "हिमालको उत्पादन अनि चिसो हावापानी, १००% शुद्ध अग्र्यानिक जिन्दगानी।"
+              </span>
             </p>
             
             {/* Download App Action Section with clear spacing and breathing room */}
@@ -117,20 +134,47 @@ export function Hero() {
                 </div>
               )}
               
-              <div className="flex items-center justify-between px-2">
-                <div className="flex gap-3">
-                  <div className="flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-full px-3 py-1">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-2">
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-3 py-1">
+                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                    <span className="text-[11px] font-semibold text-emerald-300 tracking-wide">Play Protect Safe • सुरक्षित APK</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-full px-2.5 py-1">
                     <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
                     <span className="text-[10px] font-bold text-gray-300 tracking-wider">ANDROID</span>
                   </div>
                 </div>
-                <div className="text-[10px] text-gray-500 text-right">
-                  <div>V {APP_CONFIG.APP_VERSION}</div>
-                  <div>{APP_CONFIG.APK_FILE_SIZE}</div>
+                <div className="text-[11px] text-gray-400 flex sm:flex-col justify-between sm:text-right gap-1 font-mono">
+                  <span>Version: {APP_CONFIG.APP_VERSION}</span>
+                  <span className="text-gray-500">Size: {APP_CONFIG.APK_FILE_SIZE}</span>
                 </div>
+              </div>
+
+              {/* QR Code trigger for PC users */}
+              <div className="pt-2 border-t border-white/5 flex items-center justify-center sm:justify-start">
+                <button
+                  type="button"
+                  onClick={() => setShowQrModal(true)}
+                  className="text-xs text-gray-400 hover:text-emerald-400 flex items-center gap-2 transition-colors py-1 px-2 rounded-lg hover:bg-white/5"
+                >
+                  <QrCode className="w-4 h-4 text-emerald-400" />
+                  <span>कम्प्युटरबाट हेर्दै हुनुहुन्छ? <strong>QR Code स्क्यान गर्नुहोस्</strong></span>
+                </button>
               </div>
             </div>
           </motion.div>
+
+          <DownloadSuccessModal 
+            isOpen={showModal} 
+            onClose={() => setShowModal(false)} 
+            onDownloadAgain={triggerDownloadAgain} 
+          />
+
+          <QrCodeModal
+            isOpen={showQrModal}
+            onClose={() => setShowQrModal(false)}
+          />
 
           <motion.div
             initial={{ opacity: 0, x: 20 }}

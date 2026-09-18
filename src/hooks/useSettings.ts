@@ -11,6 +11,9 @@ export function useSettings() {
     location: APP_CONFIG.CONTACT.LOCATION,
     apps: "[]",
     tickerMessages: "[]",
+    showSellerContacts: true, // Master enable/disable toggle for seller contacts in market index
+    useAdminPhoneForSellers: false, // Forward all seller contacts to admin phone toggle
+    marketProduceJson: "", // Custom sellers & rates JSON override
     loading: true
   });
 
@@ -25,6 +28,9 @@ export function useSettings() {
           location: data.location !== undefined ? data.location : APP_CONFIG.CONTACT.LOCATION,
           apps: data.apps !== undefined ? data.apps : "[]",
           tickerMessages: data.tickerMessages !== undefined ? data.tickerMessages : "[]",
+          showSellerContacts: data.showSellerContacts !== undefined ? Boolean(data.showSellerContacts) : true,
+          useAdminPhoneForSellers: data.useAdminPhoneForSellers !== undefined ? Boolean(data.useAdminPhoneForSellers) : false,
+          marketProduceJson: data.marketProduceJson !== undefined ? data.marketProduceJson : "",
           loading: false
         });
       } else {
