@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { APP_CONFIG } from "@/config";
 import { Button } from "@/components/ui/button";
-import { Download as DownloadIcon, Smartphone, CheckCircle, Shield, FileBox, Image as ImageIcon, Loader2, ShieldCheck, QrCode } from "lucide-react";
+import { Download as DownloadIcon, Smartphone, CheckCircle, Shield, FileBox, Image as ImageIcon, Loader2, ShieldCheck, QrCode, ExternalLink } from "lucide-react";
 import { motion } from "motion/react";
 import { useSettings } from "@/hooks/useSettings";
 import { getDirectApkUrl } from "@/lib/apk";
@@ -107,6 +107,20 @@ export default function Download() {
                   </div>
                 </div>
               )}
+
+              {/* Alternative Google Drive Link */}
+              <div className="mt-4 flex flex-col sm:flex-row items-center justify-center gap-2 text-xs text-gray-400 text-center">
+                <span>Direct download issue?</span>
+                <a
+                  href={APP_CONFIG.GOOGLE_DRIVE_APK_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-400 hover:text-blue-300 font-medium inline-flex items-center gap-1.5 transition-colors bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-full border border-white/10"
+                >
+                  <ExternalLink className="w-3.5 h-3.5 text-blue-400" />
+                  <span>Google Drive Link (गुगल ड्राइभबाट डाउनलोड)</span>
+                </a>
+              </div>
             </div>
 
             <div className="bg-white/5 rounded-2xl border border-white/5 p-6 mb-6">
@@ -151,54 +165,6 @@ export default function Download() {
               onClose={() => setShowModal(false)} 
               onDownloadAgain={triggerDownloadAgain} 
             />
-            
-            {/* Logo Download Section */}
-            <div className="border-t border-white/10 pt-8 mt-4">
-               <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-                <ImageIcon className="w-5 h-5 text-emerald-400" />
-                Nepali / Mugu Themed App Logos
-              </h3>
-              <div className="grid grid-cols-1 gap-4">
-                <a 
-                  href="/mugu-logo-rara.jpg" 
-                  download="mugu_logo_rara_lake.jpg"
-                  className="flex items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl p-3 transition-colors group"
-                >
-                  <img src="/mugu-logo-rara.jpg" alt="Rara Lake Logo" className="w-14 h-14 rounded-lg object-cover bg-black" />
-                  <div className="flex-1 text-left">
-                    <div className="text-white text-sm font-semibold">Rara Lake & Organic Basket</div>
-                    <div className="text-gray-400 text-xs">Deep forest green with abstract local produce.</div>
-                  </div>
-                  <DownloadIcon className="w-5 h-5 text-gray-400 group-hover:text-emerald-400 transition-colors" />
-                </a>
-                
-                <a 
-                  href="/mugu-logo-nepal.jpg" 
-                  download="mugu_logo_nepal_map.jpg"
-                  className="flex items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl p-3 transition-colors group"
-                >
-                  <img src="/mugu-logo-nepal.jpg" alt="Nepal Map Logo" className="w-14 h-14 rounded-lg object-cover bg-black" />
-                  <div className="flex-1 text-left">
-                    <div className="text-white text-sm font-semibold">Nepal Map & Sunrise</div>
-                    <div className="text-gray-400 text-xs">Rhododendron red, Himalayan blue, and organic green.</div>
-                  </div>
-                  <DownloadIcon className="w-5 h-5 text-gray-400 group-hover:text-emerald-400 transition-colors" />
-                </a>
-
-                <a 
-                  href="/mugu-logo-namaste.jpg" 
-                  download="mugu_logo_namaste.jpg"
-                  className="flex items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl p-3 transition-colors group"
-                >
-                  <img src="/mugu-logo-namaste.jpg" alt="Namaste Logo" className="w-14 h-14 rounded-lg object-cover bg-black" />
-                  <div className="flex-1 text-left">
-                    <div className="text-white text-sm font-semibold">Traditional Namaste & Karnali Apple</div>
-                    <div className="text-gray-400 text-xs">Crimson, golden yellow, and earthy brown tones.</div>
-                  </div>
-                  <DownloadIcon className="w-5 h-5 text-gray-400 group-hover:text-emerald-400 transition-colors" />
-                </a>
-              </div>
-            </div>
 
           </div>
 

@@ -50,7 +50,7 @@ export function LocalProduceSection() {
   };
 
   return (
-    <section className="py-20 relative z-10 border-t border-white/5 bg-[#090b13] overflow-hidden">
+    <section id="market-index" className="py-24 relative z-10 border-t border-white/10 bg-[#090b13] overflow-hidden">
       {/* Background Ambience Glow */}
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-emerald-600/10 blur-[150px] pointer-events-none rounded-full"></div>
 
@@ -70,7 +70,7 @@ export function LocalProduceSection() {
               Mountain Produce & Direct Traders Directory
             </h2>
             <p className="text-gray-300 text-sm sm:text-base mt-3 leading-relaxed">
-              Order authentic Himalayan produce directly from verified farmers and cooperatives in Mugu & Humla with nationwide delivery to Kathmandu, Pokhara, and major urban centers.
+              Order authentic Himalayan produce directly from verified farmers and cooperatives in Mugu, Humla & Jumla with nationwide delivery to Kathmandu, Pokhara, and major urban centers.
             </p>
           </div>
 

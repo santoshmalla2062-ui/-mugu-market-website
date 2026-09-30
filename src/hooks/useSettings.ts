@@ -22,7 +22,7 @@ export function useSettings() {
       if (docSnap.exists()) {
         const data = docSnap.data();
         setSettings({
-          apkUrl: data.apkUrl !== undefined ? data.apkUrl : APP_CONFIG.APK_DOWNLOAD_URL,
+          apkUrl: (data.apkUrl && data.apkUrl.trim() !== "") ? data.apkUrl : APP_CONFIG.APK_DOWNLOAD_URL,
           phone: data.phone !== undefined ? data.phone : APP_CONFIG.CONTACT.PHONE,
           email: data.email !== undefined ? data.email : APP_CONFIG.CONTACT.EMAIL,
           location: data.location !== undefined ? data.location : APP_CONFIG.CONTACT.LOCATION,

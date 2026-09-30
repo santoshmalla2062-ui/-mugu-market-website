@@ -76,20 +76,23 @@ export function About() {
             transition={{ duration: 0.5 }}
             className="lg:col-span-5"
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-500/10 border border-blue-500/20 rounded-full text-blue-400 text-xs font-semibold mb-4">
-              <MapPin className="w-3.5 h-3.5" />
-              Mugu & Humla, Karnali Province
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-emerald-500/15 border border-emerald-500/30 rounded-full text-emerald-300 text-xs font-bold mb-4 shadow-inner">
+              <MapPin className="w-3.5 h-3.5 text-emerald-400" />
+              Mugu, Humla & Jumla • कर्णाली प्रदेश
             </div>
             
-            <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl mb-6 font-display">
+            <h2 className="text-3xl font-black tracking-tight text-white sm:text-5xl mb-6 font-display">
               Connecting Karnali’s Heritage to Nepal
+              <span className="block text-xl sm:text-2xl text-emerald-400 font-bold mt-2">
+                कर्णालीको मौलिक पहिचान र सम्भावना
+              </span>
             </h2>
             <p className="text-base text-gray-300 mb-6 leading-relaxed">
-              Mugu and Humla are renowned for pure, high-altitude organic produce. Our mission is to directly connect mountain farmers and collectors with consumers, organic stores, and wholesale businesses in Kathmandu, Pokhara, Butwal, and beyond.
+              मुगु, हुम्ला र जुम्ला शुद्ध, उच्च हिमाली अग्र्यानिक उत्पादनका लागि प्रख्यात छन्। हाम्रो अभियान यी हिमाली क्षेत्रका कृषक तथा स्थानीय संकलकहरूलाई काठमाडौँ, पोखरा, बुटवल, चितवन लगायत देशभरका उपभोक्ता र थोक मार्टहरूसँग सिधै जोड्नु हो।
             </p>
             
-            <div className="bg-blue-500/10 border border-blue-500/20 rounded-xl p-5 md:p-6 mb-8 shadow-lg">
-              <p className="text-base md:text-lg text-blue-200 leading-relaxed font-medium italic">
+            <div className="bg-gradient-to-br from-emerald-950/50 via-blue-950/30 to-black/40 border border-emerald-500/30 rounded-2xl p-5 md:p-6 mb-8 shadow-xl">
+              <p className="text-base md:text-lg text-emerald-200 leading-relaxed font-semibold italic">
                 "Direct from the Himalayas to your doorstep — empowering local farmers with fair value while delivering genuine organic food to city homes."
               </p>
             </div>
