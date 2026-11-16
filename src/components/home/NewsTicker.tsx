@@ -16,7 +16,6 @@ const getIcon = (iconName: string) => {
 export function NewsTicker() {
   const { settings } = useSettings();
 
-  // Parse apps to dynamically show in ticker if we want to
   let tickerItems = [];
   
   if (settings.tickerMessages && settings.tickerMessages !== "[]") {
@@ -27,7 +26,6 @@ export function NewsTicker() {
     }
   }
 
-  // Fallback default
   if (tickerItems.length === 0) {
     tickerItems = [
       { text: "मुगु, हुम्ला र जुम्लाका अग्र्यानिक उत्पादन अब सिधै काठमाडौँ, पोखरा र देशभर डेलिभरी! 🏔️", icon: "Sparkles", color: "text-yellow-400", textColor: "text-gray-300" },
@@ -40,7 +38,6 @@ export function NewsTicker() {
   return (
     <div className="relative bg-[#060a14]/80 border-b border-white/[0.05] py-2.5 overflow-hidden flex items-center z-40 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
       
-      {/* Ticker Animation Styles */}
       <style>
         {`
           @keyframes ticker-scroll {
@@ -55,16 +52,13 @@ export function NewsTicker() {
         `}
       </style>
 
-      {/* Left fixed fade edge */}
       <div className="absolute left-0 top-0 bottom-0 w-20 z-20 bg-gradient-to-r from-[#060a14] via-[#060a14] to-transparent pointer-events-none"></div>
 
-      {/* Scrolling Content Container - no padding here to ensure accurate % translation */}
       <div className="flex">
         <div className="animate-ticker-scroll">
-          {/* Render 10 copies for a robust infinite loop. TranslateX(-10%) shifts exactly 1 copy. */}
           {[...Array(10)].map((_, groupIndex) => (
             <div key={groupIndex} className="flex">
-              {tickerItems.map((item, index) => {
+              {tickerItems.map((item: any, index: number) => {
                 const Icon = getIcon(item.icon);
                 return (
                   <div key={index} className="flex items-center gap-2 mx-3 sm:mx-6 group cursor-pointer">
@@ -83,7 +77,6 @@ export function NewsTicker() {
         </div>
       </div>
       
-      {/* Right fade edge */}
       <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-[#060a14] to-transparent z-10 pointer-events-none"></div>
     </div>
   );

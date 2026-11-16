@@ -15,19 +15,27 @@ import AdminDashboard from "./pages/AdminDashboard";
 import DesignPreview from "./pages/DesignPreview";
 
 function ScrollToTop() {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
   
   useEffect(() => {
-    // Attempt to handle hash scrolling for #features and #about links
-    if (window.location.hash) {
-      const element = document.getElementById(window.location.hash.substring(1));
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-        return;
+    if (hash) {
+      const id = hash.substring(1);
+      const scrollToHash = () => {
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+          return true;
+        }
+        return false;
+      };
+      if (!scrollToHash()) {
+        const timer = setTimeout(scrollToHash, 100);
+        return () => clearTimeout(timer);
       }
+      return;
     }
     window.scrollTo(0, 0);
-  }, [pathname]);
+  }, [pathname, hash]);
   
   return null;
 }

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://mugumarket.com/sitemap.xml
+Sitemap: https://mugu-market-website.vercel.app/sitemap.xml

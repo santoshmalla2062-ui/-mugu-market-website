@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { motion } from "motion/react";
-import { Download, ShoppingBag, Loader2, ShieldCheck, CheckCircle2, QrCode } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Download, ShoppingBag, Loader2, ShieldCheck, QrCode } from "lucide-react";
 import { APP_CONFIG } from "@/config";
-import { Button } from "@/components/ui/button";
 
 import bgImage from "@/assets/images/sunset_valley_1788081186609.jpg";
 import { useSettings } from "@/hooks/useSettings";
@@ -40,18 +38,15 @@ export function Hero() {
 
   return (
     <section id="download-section" className="relative overflow-hidden min-h-[calc(100vh-80px)] flex items-center pt-16 md:pt-0 pb-16">
-      {/* Background Image of Mugu / Nepal Himalayas */}
       <div 
         className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-40 mix-blend-luminosity"
         style={{ backgroundImage: `url(${bgImage})` }}
       ></div>
-      {/* Dark gradient overlays for readability and fading into the dark theme */}
       <div className="absolute inset-0 z-0 bg-gradient-to-b from-[#0a0a0a]/40 via-[#0a0a0a]/80 to-[#0a0a0a]"></div>
       <div className="absolute inset-0 z-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/50 to-[#0a0a0a]/80"></div>
       
-      {/* Background decoration */}
       <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[500px] h-[500px] bg-blue-600/20 blur-[120px] rounded-full animate-pulse-slow"></div>
-      <div className="absolute top-1/3 right-1/4 w-[400px] h-[400px] bg-emerald-600/15 blur-[100px] rounded-full animate-pulse-slow" style={{ animationDelay: '2s' }}></div>
+      <div className="absolute top-1/3 right-1/4 w-[400px] h-[400px] bg-emerald-600/15 blur-[100px] rounded-full animate-pulse-slow" style={{ animationDelay: "2s" }}></div>
       
       <div className="container relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -82,7 +77,6 @@ export function Hero() {
               </span>
             </p>
             
-            {/* Download App Action Section with clear spacing and breathing room */}
             <div className="flex flex-col gap-6 w-full sm:max-w-md pt-2 mt-4">
               {apkUrl ? (
                 <a 
@@ -97,7 +91,7 @@ export function Hero() {
                     <div className="bg-gray-900 rounded-xl p-5 sm:p-7 flex items-center justify-between overflow-hidden relative h-full w-full">
                       <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-700"></div>
                       <div className="flex items-center gap-5 sm:gap-7 relative z-10">
-                        <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center shrink-0 border border-white/5 shadow-inner transition-colors duration-300 ${isStarting ? "bg-emerald-500/20 text-emerald-400" : "bg-white/10 text-emerald-400"}`}>
+                        <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center shrink-0 border border-white/5 shadow-inner transition-colors duration-300 ${isStarting ? 'bg-emerald-500/20 text-emerald-400' : 'bg-white/10 text-emerald-400'}`}>
                           {isStarting ? (
                             <Loader2 className="w-7 h-7 sm:w-8 sm:h-8 animate-spin text-emerald-400" />
                           ) : (
@@ -125,8 +119,12 @@ export function Hero() {
                           <Download className="w-7 h-7 sm:w-8 sm:h-8 text-gray-500" />
                         </div>
                         <div className="text-left flex flex-col gap-1">
-                          <div className="text-gray-400 font-black text-xl sm:text-2xl tracking-wide">APP COMING SOON</div>
-                          <div className="text-gray-500 text-xs sm:text-sm font-medium">Download Mugu Market for Android</div>
+                          <div className="text-gray-400 font-black text-xl sm:text-2xl tracking-wide">
+                            APP COMING SOON
+                          </div>
+                          <div className="text-gray-500 text-xs sm:text-sm font-medium">
+                            Download Mugu Market for Android
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -145,13 +143,13 @@ export function Hero() {
                     <span className="text-[10px] font-bold text-gray-300 tracking-wider">ANDROID</span>
                   </div>
                 </div>
+
                 <div className="text-[11px] text-gray-400 flex sm:flex-col justify-between sm:text-right gap-1 font-mono">
                   <span>Version: {APP_CONFIG.APP_VERSION}</span>
                   <span className="text-gray-500">Size: {APP_CONFIG.APK_FILE_SIZE}</span>
                 </div>
               </div>
 
-              {/* QR Code trigger for PC users */}
               <div className="pt-2 border-t border-white/5 flex items-center justify-center sm:justify-start">
                 <button
                   type="button"
@@ -183,7 +181,6 @@ export function Hero() {
             className="flex items-center justify-center relative z-10"
           >
             <div className="phone-mockup hidden lg:block border-[6px] border-gray-800 rounded-[2.5rem] bg-gray-900 shadow-2xl overflow-hidden relative w-[300px] h-[600px]">
-              {/* Dynamic Island / Notch */}
               <div className="absolute top-2 left-1/2 -translate-x-1/2 w-1/3 h-5 bg-black rounded-b-xl z-20"></div>
               
               <div className="phone-screen w-full h-full bg-white flex flex-col relative z-10">

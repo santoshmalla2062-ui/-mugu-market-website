@@ -1,11 +1,14 @@
 import { Link } from "react-router-dom";
-import { Mail, MapPin, Phone, Lock, ShieldCheck, Heart } from "lucide-react";
+import { Mail, MapPin, Phone, Lock, ShieldCheck } from "lucide-react";
 import { APP_CONFIG } from "@/config";
 import { useSettings } from "@/hooks/useSettings";
+import { cleanPhoneDigits } from "@/lib/phone";
 
 export function Footer() {
   const { settings } = useSettings();
-  const phone = !settings.loading ? settings.phone : APP_CONFIG.CONTACT.PHONE;
+  const rawPhone = !settings.loading ? settings.phone : APP_CONFIG.CONTACT.PHONE;
+  const phoneDigits = cleanPhoneDigits(rawPhone);
+  const phone = phoneDigits.length >= 7 ? rawPhone : "";
   const email = !settings.loading ? settings.email : APP_CONFIG.CONTACT.EMAIL;
   const location = !settings.loading ? settings.location : APP_CONFIG.CONTACT.LOCATION;
 
@@ -47,19 +50,19 @@ export function Footer() {
                 <Link to="/download" className="hover:text-emerald-400 transition-colors">Download App (एप डाउनलोड)</Link>
               </li>
               <li>
-                <a href="/#market-index" className="hover:text-emerald-400 transition-colors">Market Rate Index (मण्डी दर)</a>
+                <Link to="/#market-index" className="hover:text-emerald-400 transition-colors">Market Rate Index (मण्डी दर)</Link>
               </li>
               <li>
-                <a href="/#services" className="hover:text-emerald-400 transition-colors">Ecosystem (सेवा सञ्जाल)</a>
+                <Link to="/#services" className="hover:text-emerald-400 transition-colors">Ecosystem (सेवा सञ्जाल)</Link>
               </li>
               <li>
-                <a href="/#about" className="hover:text-emerald-400 transition-colors">About Us (हाम्रोबारे)</a>
+                <Link to="/#about" className="hover:text-emerald-400 transition-colors">About Us (हाम्रोबारे)</Link>
               </li>
             </ul>
           </div>
 
           <div>
-            <h3 className="font-bold text-white text-sm mb-4 tracking-wide uppercase">Legal & Security</h3>
+            <h3 className="font-bold text-white text-sm mb-4 tracking-wide uppercase">Legal &amp; Security</h3>
             <ul className="space-y-2.5 text-xs sm:text-sm text-gray-400">
               <li>
                 <Link to="/privacy-policy" className="hover:text-emerald-400 transition-colors">Privacy Policy (गोपनीयता नीति)</Link>
@@ -86,7 +89,7 @@ export function Footer() {
               {phone && (
                 <li className="flex items-center gap-3">
                   <Phone className="h-4 w-4 text-emerald-400 shrink-0" />
-                  <a href={`tel:${phone}`} className="text-white hover:text-emerald-400 font-semibold transition-colors">{phone}</a>
+                  <a href={`tel:${phoneDigits}`} className="text-white hover:text-emerald-400 font-semibold transition-colors">{phone}</a>
                 </li>
               )}
               <li className="flex items-center gap-3">
@@ -109,7 +112,6 @@ export function Footer() {
           
           <div className="flex items-center gap-2">
             <span className="text-gray-500 font-medium tracking-wide">MADE By SMT THAKURI</span>
-            {/* Discreet Secret Admin Link for Owner only */}
             <Link 
               to="/login" 
               title="Staff / Admin Portal" 

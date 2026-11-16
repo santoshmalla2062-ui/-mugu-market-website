@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { Package, Store, Boxes, Smartphone, ShoppingCart, ShieldCheck, Sparkles, CheckCircle, Award, Compass, HeartHandshake } from "lucide-react";
+import { Package, Boxes, Smartphone, ShoppingCart, ShieldCheck, CheckCircle2, HeartHandshake, Sparkles } from "lucide-react";
 
 const stats = [
   { value: "२,९००+", label: "मिटर हिमाली उचाइ", sub: "Pure Alpine Air" },
@@ -68,13 +68,11 @@ const reasons = [
 export function WhyChooseUs() {
   return (
     <section className="py-24 relative z-10 border-t border-white/10 bg-gradient-to-b from-[#0a0d18] via-[#0e1222] to-[#0a0d18] overflow-hidden">
-      {/* Background glow highlights */}
       <div className="absolute top-1/3 right-1/4 w-[450px] h-[450px] bg-emerald-500/10 rounded-full blur-[140px] pointer-events-none"></div>
       <div className="absolute bottom-10 left-10 w-[400px] h-[400px] bg-blue-500/10 rounded-full blur-[140px] pointer-events-none"></div>
 
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* Top Highlight Stats Row */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-20">
           {stats.map((stat, i) => (
             <motion.div
@@ -108,9 +106,7 @@ export function WhyChooseUs() {
           >
             <div className="inline-flex items-center gap-2 bg-emerald-500/15 border border-emerald-500/30 rounded-full px-4 py-1.5 mb-5">
               <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
-              <span className="text-xs font-bold text-emerald-300 tracking-wider uppercase">
-                Our Mountain Mission
-              </span>
+              <span className="text-xs font-bold text-emerald-300 tracking-wider uppercase">Our Mountain Mission</span>
             </div>
             
             <h2 className="text-3xl font-black tracking-tight text-white sm:text-4xl mb-5 leading-tight font-display">
@@ -126,7 +122,7 @@ export function WhyChooseUs() {
 
             <div className="p-5 rounded-2xl bg-gradient-to-br from-emerald-950/40 via-blue-950/20 to-transparent border border-emerald-500/25 mb-6">
               <div className="flex items-center gap-2 text-emerald-400 text-xs font-bold uppercase tracking-wider mb-2">
-                <CheckCircle className="w-4 h-4" />
+                <CheckCircle2 className="w-4 h-4" />
                 १००% प्राङ्गारिक प्रत्याभूति
               </div>
               <p className="text-xs text-gray-300 leading-relaxed">
@@ -165,7 +161,7 @@ export function WhyChooseUs() {
                 </div>
 
                 <div className="mt-5 pt-3 border-t border-white/10 flex items-center gap-1.5 text-xs text-emerald-400 font-semibold">
-                  <CheckCircle className="w-3.5 h-3.5" />
+                  <CheckCircle2 className="w-3.5 h-3.5" />
                   <span>प्रमाणित प्रणाली (Verified System)</span>
                 </div>
               </motion.div>

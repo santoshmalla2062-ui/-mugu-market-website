@@ -1,6 +1,7 @@
 import { useState, FormEvent } from "react";
-import { MessageCircle, Phone, MapPin, Send, CheckCircle2, User, HelpCircle, Store } from "lucide-react";
+import { MessageCircle, Phone, MapPin, Send, CheckCircle2, User, Store } from "lucide-react";
 import { useSettings } from "@/hooks/useSettings";
+import { cleanPhoneDigits } from "@/lib/phone";
 
 export function DirectContactSection() {
   const { settings } = useSettings();
@@ -8,8 +9,7 @@ export function DirectContactSection() {
   const email = !settings.loading && settings.email ? settings.email : "info@hamromugu.com";
   const location = !settings.loading && settings.location ? settings.location : "गमगढी बजार, छायाँनाथ रारा, मुगु";
 
-  // Clean phone for whatsapp
-  const cleanPhone = phone.replace(/[^0-9]/g, "");
+  const cleanPhone = cleanPhoneDigits(phone);
   const hasPhone = Boolean(cleanPhone && cleanPhone.length >= 7);
   const whatsappUrl = hasPhone 
     ? `https://wa.me/977${cleanPhone}?text=${encodeURIComponent("नमस्ते! म हाम्रो मुगु लोकल बजार एप र उत्पादनबारे जानकारी लिन चाहन्छु।")}`
@@ -18,26 +18,30 @@ export function DirectContactSection() {
   const [formState, setFormState] = useState({
     name: "",
     phone: "",
-    interest: "उत्पादन किन्न चाहन्छु (Buyer)",
+    interest: "Consumer Order (काठमाडौँ/अन्य सहरमा सामान मगाउन)",
     message: "",
   });
-  const [submitted, setSubmitted] = useState(false);
+  const [submitted, setSubmitted] = useState<false | "whatsapp" | "email">(false);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (!formState.name || !formState.phone) return;
-    
+    if (!formState.name.trim() || !formState.phone.trim()) return;
+
+    const msg = `नमस्ते! म ${formState.name} (${formState.phone})। म ${formState.interest} बारे बुझ्न चाहन्छु। थप सन्देश: ${formState.message || "कुनै छैन"}`;
+
     if (hasPhone) {
-      const msg = `नमस्ते! म ${formState.name} (${formState.phone})। म ${formState.interest} बारे बुझ्न चाहन्छु। थप सन्देश: ${formState.message || "कुनै छैन"}`;
-      window.open(`https://wa.me/977${cleanPhone}?text=${encodeURIComponent(msg)}`, "_blank");
+      window.open(`https://wa.me/977${cleanPhone}?text=${encodeURIComponent(msg)}`, "_blank", "noopener,noreferrer");
+      setSubmitted("whatsapp");
+    } else {
+      const subject = `हाम्रो मुगु बजार सोधपुछ: ${formState.interest}`;
+      window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(msg)}`;
+      setSubmitted("email");
     }
-    setSubmitted(true);
     setTimeout(() => setSubmitted(false), 5000);
   };
 
   return (
     <section id="contact-hub" className="py-24 relative z-10 border-t border-white/10 bg-gradient-to-b from-[#070a14] via-[#0b0f1e] to-[#070a14] overflow-hidden">
-      {/* Background ambient light */}
       <div className="absolute top-1/4 right-10 w-96 h-96 bg-emerald-600/10 rounded-full blur-[140px] pointer-events-none"></div>
       <div className="absolute bottom-10 left-10 w-96 h-96 bg-blue-600/10 rounded-full blur-[140px] pointer-events-none"></div>
 
@@ -46,9 +50,7 @@ export function DirectContactSection() {
         <div className="text-center max-w-3xl mx-auto mb-14">
           <div className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500/15 via-teal-500/15 to-transparent border border-emerald-500/30 rounded-full px-4 py-1.5 mb-4 shadow-inner">
             <MessageCircle className="w-4 h-4 text-emerald-400" />
-            <span className="text-xs font-extrabold text-emerald-300 tracking-wider uppercase">
-              Direct Contact & Wholesale Hub
-            </span>
+            <span className="text-xs font-extrabold text-emerald-300 tracking-wider uppercase">Direct Contact &amp; Wholesale Hub</span>
           </div>
           <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight font-display mb-3">
             Connect With Our Team
@@ -60,7 +62,6 @@ export function DirectContactSection() {
             मुगु, हुम्ला र जुम्लाका किसान तथा संकलकहरूसँग सिधा सम्पर्क, ठूलो परिमाणको होलसेल आपूर्ति, वा उपभोक्ता होम डेलिभरीका लागि सम्पर्क गर्नुहोस्।
           </p>
 
-          {/* Verified Regional Coverage Badges */}
           <div className="flex flex-wrap justify-center items-center gap-2 mt-6">
             <span className="text-[11px] font-bold bg-[#141a2c] text-emerald-300 border border-emerald-500/30 px-3 py-1 rounded-full flex items-center gap-1.5 shadow">
               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
@@ -79,9 +80,7 @@ export function DirectContactSection() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
           
-          {/* Contact Direct Cards */}
           <div className="space-y-4">
-            {/* WhatsApp Card */}
             {hasPhone ? (
               <a
                 href={whatsappUrl}
@@ -95,15 +94,13 @@ export function DirectContactSection() {
                 <div>
                   <div className="flex items-center gap-2">
                     <h3 className="text-base font-bold text-white">ह्वाट्सएप च्याट (WhatsApp)</h3>
-                    <span className="text-[10px] bg-emerald-500/30 text-emerald-200 font-extrabold px-2.5 py-0.5 rounded-full border border-emerald-500/40">
-                      Online
-                    </span>
+                    <span className="text-[10px] bg-emerald-500/30 text-emerald-200 font-extrabold px-2.5 py-0.5 rounded-full border border-emerald-500/40">Online</span>
                   </div>
                   <p className="text-xs text-gray-300 mt-1 leading-relaxed">
                     सिधै म्यासेज पठाउनुहोस् र तत्काल जवाफ पाउनुहोस्।
                   </p>
                   <span className="text-xs font-bold text-emerald-400 mt-3 inline-block group-hover:underline">
-                    {phone} • च्याट सुरु गर्नुहोस् &rarr;
+                    {phone} • च्याट सुरु गर्नुहोस् →
                   </span>
                 </div>
               </a>
@@ -121,7 +118,6 @@ export function DirectContactSection() {
               </div>
             )}
 
-            {/* Direct Phone Call Card */}
             {hasPhone ? (
               <a
                 href={`tel:${cleanPhone}`}
@@ -136,7 +132,7 @@ export function DirectContactSection() {
                     थोक अर्डर, किसान समन्वय वा प्राविधिक सहयोगका लागि।
                   </p>
                   <span className="text-xs font-bold text-blue-400 mt-3 inline-block group-hover:underline">
-                    {phone} • सिधै कल गर्नुहोस् &rarr;
+                    {phone} • सिधै कल गर्नुहोस् →
                   </span>
                 </div>
               </a>
@@ -154,7 +150,6 @@ export function DirectContactSection() {
               </div>
             )}
 
-            {/* Office Location Card */}
             <div className="p-6 rounded-3xl bg-gradient-to-br from-purple-950/40 via-purple-900/10 to-transparent border border-purple-500/30 flex items-start gap-4 shadow-lg">
               <div className="w-14 h-14 rounded-2xl bg-purple-500/20 text-purple-400 flex items-center justify-center shrink-0 border border-purple-500/30 shadow-inner">
                 <MapPin className="w-7 h-7" />
@@ -171,7 +166,6 @@ export function DirectContactSection() {
             </div>
           </div>
 
-          {/* Quick Inquiry Form */}
           <div className="lg:col-span-2 bg-[#101424] border border-white/10 rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden">
             <div className="absolute top-0 right-0 w-60 h-60 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20"></div>
 
@@ -224,9 +218,9 @@ export function DirectContactSection() {
                   className="w-full bg-[#090c16] border border-white/15 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors"
                 >
                   <option value="Consumer Order (काठमाडौँ/अन्य सहरमा सामान मगाउन)">Order for Home / Personal Use (घरको लागि खरिद)</option>
-                  <option value="Wholesale Supply (थोक आपूर्ति / होलसेल)">Wholesale Supply for Stores & Restaurants (थोक खरिद)</option>
+                  <option value="Wholesale Supply (थोक आपूर्ति / होलसेल)">Wholesale Supply for Stores &amp; Restaurants (थोक खरिद)</option>
                   <option value="Farmer / Supplier (मुगु, हुम्ला, जुम्लाबाट उत्पादन पठाउन)">Register as Farmer or Collector (उत्पादन पठाउन दर्ता)</option>
-                  <option value="Logistics & General Inquiry (ढुवानी तथा अन्य)">Logistics, Transport & App Support (ढुवानी तथा सहायता)</option>
+                  <option value="Logistics & General Inquiry (ढुवानी तथा अन्य)">Logistics, Transport &amp; App Support (ढुवानी तथा सहायता)</option>
                 </select>
               </div>
 
@@ -248,13 +242,17 @@ export function DirectContactSection() {
                 className="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-emerald-600 via-teal-600 to-blue-600 hover:from-emerald-500 hover:to-blue-500 text-white font-bold text-sm flex items-center justify-center gap-2 transition-all shadow-xl hover:shadow-emerald-500/30 cursor-pointer"
               >
                 <Send className="w-4 h-4" />
-                <span>सन्देश पठाउनुहोस् (Send via WhatsApp)</span>
+                <span>{hasPhone ? "सन्देश पठाउनुहोस् (Send via WhatsApp)" : "इमेल मार्फत सन्देश पठाउनुहोस् (Send via Email)"}</span>
               </button>
 
               {submitted && (
                 <div className="p-3.5 bg-emerald-500/20 border border-emerald-500/40 rounded-xl text-xs text-emerald-200 flex items-center gap-2 shadow-lg">
                   <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                  <span>धन्यवाद! तपाईंको अनुरोध पठाइएको छ, हामी छिट्टै सम्पर्क गर्नेछौँ।</span>
+                  <span>
+                    {submitted === "whatsapp"
+                      ? "धन्यवाद! WhatsApp मार्फत सन्देश तयार गरिएको छ, हामी छिट्टै सम्पर्क गर्नेछौँ।"
+                      : `धन्यवाद! तपाईंको इमेल एप (${email}) खोलिएको छ, कृपया त्यहाँबाट सन्देश पठाउनुहोस्।`}
+                  </span>
                 </div>
               )}
             </form>

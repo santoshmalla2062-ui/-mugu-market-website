@@ -68,7 +68,6 @@ export function About() {
     <section id="about" className="py-20 relative z-10 border-t border-white/5">
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-12 gap-12 items-start">
-          {/* Left Column: Text & Value Propositions */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -78,7 +77,7 @@ export function About() {
           >
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-emerald-500/15 border border-emerald-500/30 rounded-full text-emerald-300 text-xs font-bold mb-4 shadow-inner">
               <MapPin className="w-3.5 h-3.5 text-emerald-400" />
-              Mugu, Humla & Jumla • कर्णाली प्रदेश
+              Mugu, Humla &amp; Jumla • कर्णाली प्रदेश
             </div>
             
             <h2 className="text-3xl font-black tracking-tight text-white sm:text-5xl mb-6 font-display">
@@ -112,7 +111,7 @@ export function About() {
                   <Store className="w-5 h-5 text-emerald-400" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-white">For Farmers & Cooperatives (कृषक तथा संकलक)</h4>
+                  <h4 className="text-sm font-bold text-white">For Farmers &amp; Cooperatives (कृषक तथा संकलक)</h4>
                   <p className="text-xs text-gray-400 mt-1">Direct market linkage without middlemen, unlocking premium prices across metropolitan markets.</p>
                 </div>
               </div>
@@ -121,14 +120,13 @@ export function About() {
                   <Handshake className="w-5 h-5 text-purple-400" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-white">For Wholesale Marts & Brands (थोक तथा मार्ट)</h4>
+                  <h4 className="text-sm font-bold text-white">For Wholesale Marts &amp; Brands (थोक तथा मार्ट)</h4>
                   <p className="text-xs text-gray-400 mt-1">Direct B2B supply pipeline for organic grocery stores, supermarkets, and restaurants.</p>
                 </div>
               </div>
             </div>
           </motion.div>
           
-          {/* Right Column: Interactive Map & Mugu/Dhainkot Photo Experience */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -136,7 +134,6 @@ export function About() {
             transition={{ duration: 0.5 }}
             className="lg:col-span-7 flex flex-col gap-4"
           >
-            {/* Header controls for Map / Photos */}
             <div className="flex items-center justify-between bg-black/40 border border-white/10 rounded-2xl p-2 backdrop-blur-md">
               <div className="flex items-center gap-2">
                 <button
@@ -169,12 +166,10 @@ export function About() {
               </span>
             </div>
 
-            {/* Main Interactive Stage */}
             <div className="relative h-[380px] sm:h-[440px] apk-card overflow-hidden group p-0 border border-white/10 shadow-2xl">
               {activeTab === "map" ? (
                 <>
-                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-transparent z-10 pointer-events-none mix-blend-overlay" />
-                  
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-transparent z-10 pointer-events-none mix-blend-overlay"></div>
                   <iframe 
                     src="https://maps.google.com/maps?q=Dhainkot,+Soru,+Mugu,+Nepal&t=p&z=10&ie=UTF8&iwloc=&output=embed"
                     width="100%" 
@@ -186,7 +181,6 @@ export function About() {
                     className="absolute inset-0 opacity-85 group-hover:opacity-100 transition-opacity duration-500"
                   ></iframe>
 
-                  {/* Interactive Map Overlay Badges */}
                   <div className="absolute top-4 right-4 z-20 flex flex-wrap gap-2 justify-end">
                     <button
                       onClick={() => setSelectedPhoto(MUGU_PHOTOS[0])}
@@ -197,7 +191,6 @@ export function About() {
                     </button>
                   </div>
 
-                  {/* Location Info Banner at bottom */}
                   <div className="absolute bottom-4 left-4 right-4 p-3.5 bg-black/75 backdrop-blur-md rounded-xl border border-white/10 shadow-xl z-20 flex flex-wrap items-center justify-between gap-2">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center shadow-lg shadow-blue-900/50 shrink-0">
@@ -220,7 +213,6 @@ export function About() {
                   </div>
                 </>
               ) : (
-                /* Photo Grid View */
                 <div className="absolute inset-0 p-4 overflow-y-auto bg-gray-950/90 backdrop-blur-sm grid grid-cols-2 gap-3 z-20">
                   {MUGU_PHOTOS.map((photo) => (
                     <div
@@ -252,7 +244,6 @@ export function About() {
               )}
             </div>
 
-            {/* Thumbnail Preview Strip below the map */}
             <div className="grid grid-cols-5 gap-1.5 sm:gap-2.5">
               {MUGU_PHOTOS.map((photo) => (
                 <button
@@ -277,7 +268,6 @@ export function About() {
         </div>
       </div>
 
-      {/* Lightbox / Modal for High Resolution Photo Review */}
       <AnimatePresence>
         {selectedPhoto && (
           <motion.div
@@ -294,7 +284,6 @@ export function About() {
               className="relative max-w-3xl w-full bg-gray-900 border border-white/15 rounded-2xl overflow-hidden shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Photo Display */}
               <div className="relative aspect-[16/10] sm:aspect-[16/9] w-full bg-black overflow-hidden">
                 <img
                   src={selectedPhoto.image}
@@ -311,7 +300,6 @@ export function About() {
                 </button>
               </div>
 
-              {/* Photo Details */}
               <div className="p-5 bg-gray-900 flex flex-col gap-1.5">
                 <div className="flex items-center gap-1.5 text-xs text-blue-400 font-semibold">
                   <MapPin className="w-3.5 h-3.5" />
@@ -329,4 +317,3 @@ export function About() {
     </section>
   );
 }
-

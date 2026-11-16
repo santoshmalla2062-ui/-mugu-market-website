@@ -1,11 +1,10 @@
 import { motion } from "motion/react";
 import { APP_CONFIG } from "@/config";
-import { Download, Store, Smartphone, Globe, ExternalLink, Box, Sparkles, TrendingUp, Truck, CheckCircle2, ArrowRight } from "lucide-react";
+import { Download, Store, ExternalLink, Box, TrendingUp, Truck, ArrowRight, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useSettings } from "@/hooks/useSettings";
 import { getDirectApkUrl } from "@/lib/apk";
 
-// Helper to map string icon names to Lucide components safely
 const getIcon = (iconName: string) => {
   switch (iconName) {
     case 'Store': return Store;
@@ -15,7 +14,7 @@ const getIcon = (iconName: string) => {
   }
 };
 
-const getThemeStyles = (index: number) => {
+const getCardTheme = (index: number) => {
   const themes = [
     {
       glow: "from-emerald-500/20 via-emerald-500/5 to-transparent",
@@ -50,10 +49,8 @@ export function AppsAndServices() {
   const rawApkUrl = !settings.loading ? settings.apkUrl : APP_CONFIG.APK_DOWNLOAD_URL;
   const apkUrl = getDirectApkUrl(rawApkUrl);
   
-  // Core apps always come from config
   const coreApps = APP_CONFIG.SERVICES;
   
-  // Dynamic apps from database (App Store)
   let storeApps: any[] = [];
   try {
     if (!settings.loading && settings.apps) {
@@ -71,10 +68,10 @@ export function AppsAndServices() {
     const rawDownloadLink = service.customApkUrl ? service.customApkUrl : (service.useGlobalApkUrl !== false ? apkUrl : undefined);
     const downloadLink = rawDownloadLink ? getDirectApkUrl(rawDownloadLink) : undefined;
     const isAvailable = service.status === "Available";
-    const theme = getThemeStyles(index);
+    const theme = getCardTheme(index);
 
     return (
-       <motion.div
+      <motion.div
         key={service.id || index}
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -82,7 +79,6 @@ export function AppsAndServices() {
         transition={{ duration: 0.5, delay: index * 0.1 }}
         className={`relative flex flex-col h-full rounded-3xl bg-gradient-to-b from-[#111625] to-[#0c0f1a] border ${theme.border} overflow-hidden group shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1`}
       >
-        {/* Glow backdrop inside card */}
         <div className={`absolute top-0 right-0 w-48 h-48 bg-gradient-to-br ${theme.glow} rounded-full blur-2xl pointer-events-none group-hover:scale-125 transition-transform duration-500`}></div>
 
         <div className="p-7 flex-1 flex flex-col relative z-10">
@@ -104,9 +100,7 @@ export function AppsAndServices() {
             <span className={`text-[11px] font-bold px-2.5 py-0.5 rounded-full border ${theme.badge}`}>
               {service.platform || "Platform"}
             </span>
-            <span className="text-[11px] text-gray-400 font-medium">
-              Verified Karnali Network
-            </span>
+            <span className="text-[11px] text-gray-400 font-medium">Verified Karnali Network</span>
           </div>
           
           <p className="text-sm text-gray-300 leading-relaxed flex-1">
@@ -160,19 +154,15 @@ export function AppsAndServices() {
 
   return (
     <section id="services" className="py-24 relative z-10 border-t border-white/10 bg-[#080b14] overflow-hidden">
-      {/* Background ambient light */}
       <div className="absolute top-1/4 left-10 w-96 h-96 bg-emerald-600/10 rounded-full blur-[120px] pointer-events-none"></div>
       <div className="absolute bottom-10 right-10 w-96 h-96 bg-blue-600/10 rounded-full blur-[120px] pointer-events-none"></div>
 
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* SECTION 1: Core Ecosystem (Config Apps) */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <div className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500/15 via-blue-500/15 to-purple-500/15 border border-emerald-500/30 rounded-full px-4 py-1.5 mb-5 shadow-inner">
             <Sparkles className="w-4 h-4 text-emerald-400" />
-            <span className="text-xs font-extrabold text-emerald-300 tracking-wider uppercase">
-              Our Digital Ecosystem • डिजिटल सञ्जाल
-            </span>
+            <span className="text-xs font-extrabold text-emerald-300 tracking-wider uppercase">Our Digital Ecosystem • डिजिटल सञ्जाल</span>
           </div>
           <h2 className="text-3xl font-black tracking-tight text-white sm:text-5xl mb-4 font-display">
             Connecting Karnali to the Nation
@@ -186,7 +176,6 @@ export function AppsAndServices() {
           {coreApps.map((service, index) => renderAppCard(service, index))}
         </div>
 
-        {/* Dynamic apps from database (App Store) */}
         {storeApps.length > 0 && (
           <div className="mt-28">
             <div className="text-center max-w-3xl mx-auto mb-14">

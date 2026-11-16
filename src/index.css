@@ -71,8 +71,8 @@ body {
 .apk-card {
   background: var(--glass);
   border: 1px solid var(--glass-border);
-  border-radius: 16px;
   backdrop-filter: blur(10px);
+  border-radius: 16px;
 }
 
 .tab-active {

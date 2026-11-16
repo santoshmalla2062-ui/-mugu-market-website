@@ -11,7 +11,7 @@ export default function Terms() {
       <div className="mx-auto max-w-3xl px-6 lg:px-8 relative z-10">
         <div className="mx-auto max-w-2xl text-base leading-7 text-gray-400 apk-card p-8 sm:p-12">
           <p className="text-base font-semibold leading-7 text-blue-400">Legal Information</p>
-          <h1 className="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">Terms & Conditions</h1>
+          <h1 className="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">Terms &amp; Conditions</h1>
           <p className="mt-6 text-xl leading-8">
             Last updated: {APP_CONFIG.LAST_UPDATED}
           </p>

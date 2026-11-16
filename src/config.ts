@@ -14,7 +14,7 @@ export const APP_CONFIG = {
   LAST_UPDATED: "September 2026",
   
   CONTACT: {
-    PHONE: "[Your Phone Number]",
+    PHONE: "",
     EMAIL: "info@hamromugu.com",
     LOCATION: "Mugu, Nepal"
   },

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { APP_CONFIG } from "@/config";
-import { Button } from "@/components/ui/button";
-import { Download as DownloadIcon, Smartphone, CheckCircle, Shield, FileBox, Image as ImageIcon, Loader2, ShieldCheck, QrCode, ExternalLink } from "lucide-react";
+import { Download as DownloadIcon, CheckCircle, Shield, Loader2, ShieldCheck, ExternalLink } from "lucide-react";
 import { motion } from "motion/react";
 import { useSettings } from "@/hooks/useSettings";
 import { getDirectApkUrl } from "@/lib/apk";
@@ -54,7 +53,9 @@ export default function Download() {
               <h1 className="text-3xl sm:text-5xl font-black mb-3 text-white tracking-tight uppercase">
                 {APP_CONFIG.APP_NAME}
               </h1>
-              <p className="text-blue-400 font-semibold tracking-wide uppercase">Official Android App</p>
+              <p className="text-blue-400 font-semibold tracking-wide uppercase">
+                Official Android App
+              </p>
             </div>
 
             <div className="mt-8 mb-12">
@@ -99,8 +100,12 @@ export default function Download() {
                           <DownloadIcon className="w-8 h-8 sm:w-10 sm:h-10 text-gray-500" />
                         </div>
                         <div className="flex flex-col gap-2">
-                          <div className="text-gray-400 font-black text-2xl sm:text-3xl tracking-wide">APP COMING SOON</div>
-                          <div className="text-gray-500 text-sm font-medium">Fast, direct download from the official Mugu Nepal website.</div>
+                          <div className="text-gray-400 font-black text-2xl sm:text-3xl tracking-wide">
+                            APP COMING SOON
+                          </div>
+                          <div className="text-gray-500 text-sm font-medium">
+                            Fast, direct download from the official Mugu Nepal website.
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -108,7 +113,6 @@ export default function Download() {
                 </div>
               )}
 
-              {/* Alternative Google Drive Link */}
               <div className="mt-4 flex flex-col sm:flex-row items-center justify-center gap-2 text-xs text-gray-400 text-center">
                 <span>Direct download issue?</span>
                 <a
@@ -144,14 +148,13 @@ export default function Download() {
               </ul>
             </div>
 
-            {/* Play Protect Assurance */}
             <div className="flex items-center gap-3 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl p-4 mb-8 text-left">
               <div className="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center shrink-0">
                 <ShieldCheck className="w-5 h-5 text-emerald-400" />
               </div>
               <div className="text-xs leading-relaxed">
                 <div className="font-bold text-white flex items-center gap-2">
-                  <span>Google Play Protect Verified & Clean</span>
+                  <span>Google Play Protect Verified &amp; Clean</span>
                   <span className="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full font-semibold">100% Safe</span>
                 </div>
                 <div className="text-gray-400 mt-0.5">

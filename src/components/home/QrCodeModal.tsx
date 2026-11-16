@@ -1,23 +1,33 @@
-import { useState } from "react";
-import { QrCode, Smartphone, Sparkles, Download, CheckCircle2 } from "lucide-react";
+import { QrCode, CheckCircle2 } from "lucide-react";
 import { APP_CONFIG } from "@/config";
+import { useSettings } from "@/hooks/useSettings";
+import { getDirectApkUrl } from "@/lib/apk";
 
 export function QrCodeModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+  const { settings } = useSettings();
   if (!isOpen) return null;
 
-  // The actual URL to download the APK
-  const downloadUrl = "https://mugu-market-website.vercel.app/downloads/mugu-local-market.apk";
+  const rawApkUrl = !settings.loading && settings.apkUrl ? settings.apkUrl : APP_CONFIG.APK_DOWNLOAD_URL;
+  const resolvedApkPath = getDirectApkUrl(rawApkUrl);
+  const origin = typeof window !== "undefined" ? window.location.origin : "https://mugu-market-website.vercel.app";
+  const downloadUrl = resolvedApkPath.startsWith("http")
+    ? resolvedApkPath
+    : `${origin}${resolvedApkPath.startsWith("/") ? "" : "/"}${resolvedApkPath}`;
   // Standard public high-res QR code generator
   const qrImageSrc = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(downloadUrl)}&bgcolor=ffffff&color=090b13&margin=2`;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
+    <div 
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200"
+      onClick={onClose}
+    >
       <div 
         className="bg-[#121624] border border-emerald-500/30 rounded-3xl max-w-sm w-full p-6 text-center shadow-2xl relative"
         onClick={(e) => e.stopPropagation()}
       >
         <button 
           onClick={onClose}
+          aria-label="Close"
           className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-gray-400 hover:text-white transition-colors"
         >
           ✕

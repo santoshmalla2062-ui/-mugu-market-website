@@ -2,31 +2,30 @@ import { useMemo } from "react";
 import { motion } from "motion/react";
 import { 
   TrendingUp, 
-  Activity, 
-  Truck, 
-  Store, 
   Clock, 
-  Scale, 
   MapPin, 
-  ShieldCheck, 
-  Users,
-  Flame,
   ArrowUpRight,
   Phone,
   MessageCircle,
   CheckCircle2,
+  Flame,
+  Store,
+  Truck,
+  Activity,
   PhoneCall
 } from "lucide-react";
 import { useSettings } from "@/hooks/useSettings";
+import { cleanPhoneDigits } from "@/lib/phone";
 import { DEFAULT_MARKET_PRODUCE, MarketProduceItem, TraderContact } from "@/types/market";
 
 export function LocalProduceSection() {
   const { settings } = useSettings();
-  const defaultAdminPhone = !settings.loading && settings.phone ? settings.phone : "९८४८१२३४५६";
+  const hasValidAdminPhone = !settings.loading && cleanPhoneDigits(settings.phone).length >= 7;
+  const defaultAdminPhone = hasValidAdminPhone ? settings.phone : "९८४८१२३४५६";
+  const defaultAdminDigits = cleanPhoneDigits(defaultAdminPhone);
   const showSellerContacts = settings.showSellerContacts !== false;
   const useAdminPhoneForSellers = Boolean(settings.useAdminPhoneForSellers);
 
-  // Merge custom market data from admin if available
   const produceList: MarketProduceItem[] = useMemo(() => {
     if (!settings.loading && settings.marketProduceJson) {
       try {
@@ -43,20 +42,19 @@ export function LocalProduceSection() {
 
   const handleSellerWhatsApp = (seller: TraderContact, productName: string) => {
     const targetPhone = useAdminPhoneForSellers ? defaultAdminPhone : seller.phone;
-    const rawNumber = targetPhone.replace(/[^0-9]/g, "");
+    const rawNumber = cleanPhoneDigits(targetPhone);
+    if (!rawNumber) return;
     const recipientName = useAdminPhoneForSellers ? "मुगु बजार व्यवस्थापक" : seller.name;
     const msg = `नमस्ते ${recipientName} ज्यू! म हाम्रो मुगु बजार वेबसाइटबाट "${productName}" (बिक्रेता: ${seller.name}) सम्बन्धी सोधपुछ तथा खरिद गर्न सम्पर्क गर्दैछु।`;
-    window.open(`https://wa.me/977${rawNumber}?text=${encodeURIComponent(msg)}`, "_blank");
+    window.open(`https://wa.me/977${rawNumber}?text=${encodeURIComponent(msg)}`, "_blank", "noopener,noreferrer");
   };
 
   return (
     <section id="market-index" className="py-24 relative z-10 border-t border-white/10 bg-[#090b13] overflow-hidden">
-      {/* Background Ambience Glow */}
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-emerald-600/10 blur-[150px] pointer-events-none rounded-full"></div>
 
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* Header with Live Ticker Badge */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-12 gap-6">
           <div className="max-w-3xl text-left">
             <div className="inline-flex items-center gap-2 bg-emerald-500/15 border border-emerald-500/30 rounded-full px-4 py-1.5 mb-4 backdrop-blur-md">
@@ -82,7 +80,6 @@ export function LocalProduceSection() {
           </div>
         </div>
 
-        {/* Product Cards with Live Rates, Consumption Metrics & Direct Trader Contacts */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {produceList.map((item, idx) => (
             <motion.div
@@ -93,12 +90,11 @@ export function LocalProduceSection() {
               transition={{ duration: 0.4, delay: idx * 0.07 }}
               className="bg-gradient-to-b from-white/[0.07] to-white/[0.02] border border-white/10 hover:border-emerald-500/40 rounded-3xl p-6 transition-all duration-300 flex flex-col justify-between hover:shadow-[0_14px_40px_rgba(16,185,129,0.14)] group relative overflow-hidden text-left"
             >
-              {/* Top Status & Trader Count */}
               <div>
                 <div className="flex items-center justify-between gap-2 mb-4">
                   <span className={`px-3 py-1 rounded-full text-[11px] font-bold tracking-wide flex items-center gap-1.5 ${
-                    item.priceTrend === "high-demand"
-                      ? "bg-amber-500/20 text-amber-300 border border-amber-500/30"
+                    item.priceTrend === "high-demand" 
+                      ? "bg-amber-500/20 text-amber-300 border border-amber-500/30" 
                       : item.priceTrend === "up"
                       ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30"
                       : "bg-blue-500/20 text-blue-300 border border-blue-500/30"
@@ -113,7 +109,6 @@ export function LocalProduceSection() {
                   </span>
                 </div>
 
-                {/* Title & Origin */}
                 <div className="mb-4">
                   <h3 className="text-lg sm:text-xl font-bold text-white group-hover:text-emerald-300 transition-colors leading-snug">
                     {item.nameEnglish}
@@ -125,10 +120,7 @@ export function LocalProduceSection() {
                   </div>
                 </div>
 
-                {/* Price & Consumption Grid */}
                 <div className="bg-black/40 border border-white/5 rounded-2xl p-4 mb-4 space-y-3">
-                  
-                  {/* Live Rate */}
                   <div className="flex items-center justify-between border-b border-white/5 pb-2.5">
                     <div>
                       <span className="text-[10px] uppercase tracking-wider text-gray-400 block font-semibold">
@@ -148,7 +140,6 @@ export function LocalProduceSection() {
                     </div>
                   </div>
 
-                  {/* Real Origin and Delivery Hubs Info */}
                   <div className="grid grid-cols-2 gap-2 text-left pt-1">
                     <div>
                       <span className="text-[10px] text-gray-400 block">Harvest Region:</span>
@@ -161,18 +152,17 @@ export function LocalProduceSection() {
                       <span className="text-[10px] text-gray-400 block">Delivery Destination:</span>
                       <span className="text-xs font-bold text-emerald-300 flex items-center gap-1 mt-0.5 truncate">
                         <Truck className="w-3 h-3 text-emerald-400 shrink-0" />
-                        Kathmandu & Major Cities
+                        Kathmandu &amp; Major Cities
                       </span>
                     </div>
                   </div>
                 </div>
 
-                {/* Direct Verified Sellers Section */}
                 {showSellerContacts && item.featuredSellers && item.featuredSellers.length > 0 ? (
                   <div className="border-t border-white/10 pt-3.5 mb-4">
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-[11px] font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1">
-                        <Store className="w-3 h-3" /> Verified Sellers & Contacts:
+                        <Store className="w-3 h-3" /> Verified Sellers &amp; Contacts:
                       </span>
                       <span className="text-[10px] text-gray-400">Direct Chat / Call</span>
                     </div>
@@ -180,6 +170,7 @@ export function LocalProduceSection() {
                     <div className="space-y-2">
                       {item.featuredSellers.map((seller, sIdx) => {
                         const callPhone = useAdminPhoneForSellers ? defaultAdminPhone : seller.phone;
+                        const callDigits = cleanPhoneDigits(callPhone);
                         return (
                           <div 
                             key={sIdx}
@@ -196,7 +187,6 @@ export function LocalProduceSection() {
                             </div>
 
                             <div className="flex items-center gap-1.5 shrink-0">
-                              {/* WhatsApp Chat Button */}
                               <button
                                 type="button"
                                 onClick={() => handleSellerWhatsApp(seller, item.nameEnglish)}
@@ -206,9 +196,8 @@ export function LocalProduceSection() {
                                 <MessageCircle className="w-3.5 h-3.5" />
                               </button>
 
-                              {/* Phone Call Button */}
                               <a
-                                href={`tel:${callPhone}`}
+                                href={`tel:${callDigits || callPhone}`}
                                 title="Call directly"
                                 className="w-7 h-7 rounded-lg bg-blue-600/20 hover:bg-blue-600 text-blue-400 hover:text-white flex items-center justify-center transition-colors"
                               >
@@ -226,30 +215,28 @@ export function LocalProduceSection() {
                       <PhoneCall className="w-3.5 h-3.5" />
                       For wholesale orders or queries, call hotline:
                     </p>
-                    <a href={`tel:${defaultAdminPhone}`} className="text-white font-mono font-bold mt-1 inline-block hover:underline">
+                    <a href={`tel:${defaultAdminDigits || defaultAdminPhone}`} className="text-white font-mono font-bold mt-1 inline-block hover:underline">
                       {defaultAdminPhone}
                     </a>
                   </div>
                 )}
               </div>
 
-              {/* Action Button: App Download or Inquiry */}
               <a
                 href="#contact-hub"
                 className="w-full py-2.5 px-4 rounded-xl bg-emerald-600/20 hover:bg-emerald-600 border border-emerald-500/30 hover:border-emerald-500 text-emerald-300 hover:text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-all mt-2"
               >
-                <span>Wholesale Orders & Direct Inquiries</span>
+                <span>Wholesale Orders &amp; Direct Inquiries</span>
                 <ArrowUpRight className="w-3.5 h-3.5" />
               </a>
             </motion.div>
           ))}
         </div>
 
-        {/* Seller Registration Callout */}
         <div className="mt-14 bg-gradient-to-r from-emerald-950/40 via-blue-950/30 to-emerald-950/40 border border-emerald-500/25 rounded-3xl p-6 sm:p-8 flex flex-col lg:flex-row items-center justify-between gap-6 text-center lg:text-left">
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 text-xs font-bold text-emerald-400 uppercase tracking-widest mb-1">
-              <TrendingUp className="w-4 h-4" /> For Farmers, Cooperatives & Local Collectors of Mugu, Humla & Jumla
+              <TrendingUp className="w-4 h-4" /> For Farmers, Cooperatives &amp; Local Collectors of Mugu, Humla &amp; Jumla
             </div>
             <h4 className="text-xl sm:text-2xl font-bold text-white">
               Want to supply your local Himalayan produce to Kathmandu and nationwide?
@@ -263,7 +250,7 @@ export function LocalProduceSection() {
             href="#contact-hub"
             className="shrink-0 px-7 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-blue-600 hover:from-emerald-500 hover:to-blue-500 text-white font-bold text-sm transition-all shadow-lg hover:shadow-emerald-500/30 hover:scale-[1.02]"
           >
-            Register Produce & Store
+            Register Produce &amp; Store
           </a>
         </div>
 

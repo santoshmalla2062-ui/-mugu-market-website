@@ -1,17 +1,11 @@
 import { motion } from "motion/react";
 import herbsImg from "@/assets/images/mugu_herbs_handicrafts_1789571753112.jpg";
 import { 
-  Store, 
-  ShoppingCart, 
-  Sparkles, 
-  TrendingUp, 
   ShieldCheck, 
-  Truck, 
   MapPin, 
-  Heart,
   ChevronRight,
   Package,
-  Layers,
+  Sparkles,
   ArrowDownToLine
 } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -82,10 +76,9 @@ export function AppShowcase() {
   ];
 
   return (
-    <section className="py-20 relative z-10 border-t border-white/5 bg-gradient-to-b from-[#0a0c14] via-[#0d111d] to-[#0a0c14]">
+    <section id="features" className="py-20 relative z-10 border-t border-white/5 bg-gradient-to-b from-[#0a0c14] via-[#0d111d] to-[#0a0c14]">
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         
-        {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-4 py-1.5 mb-4">
             <Sparkles className="w-4 h-4 text-emerald-400" />
@@ -102,7 +95,6 @@ export function AppShowcase() {
           </p>
         </div>
 
-        {/* Featured Organic Produce from APK */}
         <div className="mb-20">
           <div className="flex items-center justify-between mb-8">
             <div>
@@ -169,7 +161,6 @@ export function AppShowcase() {
           </div>
         </div>
 
-        {/* 6 Core Screen Modules from Kotlin APK */}
         <div>
           <div className="text-center mb-10">
             <h3 className="text-2xl sm:text-3xl font-bold text-white mb-2">
@@ -220,7 +211,6 @@ export function AppShowcase() {
           </div>
         </div>
 
-        {/* Quick App Install CTA */}
         <div className="mt-16 bg-gradient-to-r from-emerald-900/40 via-blue-900/40 to-gray-900/60 border border-emerald-500/20 rounded-3xl p-8 sm:p-10 flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-5">
             <div className="w-16 h-16 rounded-2xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-3xl shrink-0">
