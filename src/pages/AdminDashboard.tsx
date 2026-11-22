@@ -253,8 +253,11 @@ export default function AdminDashboard() {
       name: "New App",
       description: "App description",
       icon: "Smartphone",
-      platform: "Android",
+      platform: "Android APK",
       customApkUrl: "",
+      websiteUrl: "",
+      fileSize: "",
+      useGlobalApkUrl: false,
       status: "Available"
     };
     setApps([...apps, newApp]);
@@ -836,10 +839,10 @@ export default function AdminDashboard() {
               <div>
                 <h2 className="text-xl font-bold text-white flex items-center gap-2">
                   <AppWindow className="w-6 h-6 text-indigo-400" />
-                  एप्स तथा सेवाहरूको सूची (Manage Apps & Services)
+                  Mugu App Hub व्यवस्थापन (Manage Apps &amp; Download Links)
                 </h2>
                 <p className="text-gray-400 text-xs mt-1">
-                  साइटमा देखिने एप्सहरूको विवरण र डाउनलोड लिङ्क।
+                  Mugu App Hub मा देखिने अन्य एप्सहरूको नाम, विवरण र ती एप्स डाउनलोड गर्ने सिधा लिङ्क (APK / Google Drive / Play Store) यहाँ राख्नुहोस्।
                 </p>
               </div>
               <button
@@ -848,43 +851,146 @@ export default function AdminDashboard() {
                 className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-bold transition-colors flex items-center gap-1.5"
               >
                 <Plus className="w-4 h-4" />
-                <span>+ Add New App</span>
+                <span>+ नयाँ एप थप्नुहोस् (Add New App)</span>
               </button>
             </div>
 
-            <div className="space-y-4">
-              {apps.map((app, index) => (
-                <div key={app.id || index} className="p-4 bg-black/40 border border-white/10 rounded-2xl relative group">
-                  <button 
-                    type="button"
-                    onClick={() => handleRemoveApp(index)}
-                    className="absolute top-4 right-4 p-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-lg transition-colors"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </button>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mr-10">
-                    <div>
-                      <label className="block text-xs font-medium text-gray-500 mb-1">App Name</label>
-                      <input 
-                        type="text" 
-                        value={app.name || ''} 
-                        onChange={(e) => handleUpdateApp(index, 'name', e.target.value)}
-                        className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white outline-none"
-                      />
+            {apps.length === 0 ? (
+              <div className="text-center py-12 bg-black/20 rounded-2xl border border-white/5">
+                <AppWindow className="w-10 h-10 text-gray-600 mx-auto mb-3" />
+                <p className="text-gray-400 text-xs mb-4">Mugu App Hub मा हालसम्म कुनै थप एप जोडिएको छैन।</p>
+                <button
+                  type="button"
+                  onClick={handleAddApp}
+                  className="px-4 py-2 bg-indigo-600/20 hover:bg-indigo-600 text-indigo-300 hover:text-white border border-indigo-500/30 rounded-xl text-xs font-bold transition-colors inline-flex items-center gap-1.5"
+                >
+                  <Plus className="w-4 h-4" />
+                  <span>पहिलो एप थप्नुहोस्</span>
+                </button>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {apps.map((app, index) => (
+                  <div key={app.id || index} className="p-5 bg-black/40 border border-white/10 rounded-2xl relative group space-y-4">
+                    <button 
+                      type="button"
+                      onClick={() => handleRemoveApp(index)}
+                      title="एप हटाउनुहोस्"
+                      className="absolute top-4 right-4 p-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-lg transition-colors"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+
+                    <div className="text-xs font-bold text-indigo-400 uppercase tracking-wider">
+                      एप #{index + 1}
                     </div>
-                    <div>
-                      <label className="block text-xs font-medium text-gray-500 mb-1">Description</label>
-                      <input 
-                        type="text" 
-                        value={app.description || ''} 
-                        onChange={(e) => handleUpdateApp(index, 'description', e.target.value)}
-                        className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white outline-none"
-                      />
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mr-0 sm:mr-10">
+                      <div>
+                        <label className="block text-xs font-medium text-gray-400 mb-1">App Name (एपको नाम)</label>
+                        <input 
+                          type="text" 
+                          value={app.name || ''} 
+                          onChange={(e) => handleUpdateApp(index, 'name', e.target.value)}
+                          placeholder="उदा: Mugu Krishi Guide"
+                          className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm text-white focus:border-indigo-500 outline-none"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-xs font-medium text-gray-400 mb-1">Platform / Badge (प्लेटफर्म)</label>
+                        <input 
+                          type="text" 
+                          value={app.platform || ''} 
+                          onChange={(e) => handleUpdateApp(index, 'platform', e.target.value)}
+                          placeholder="उदा: Android APK / Web App"
+                          className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm text-white focus:border-indigo-500 outline-none"
+                        />
+                      </div>
+
+                      <div className="md:col-span-2">
+                        <label className="block text-xs font-medium text-emerald-400 mb-1">
+                          App Download Link (यो एप डाउनलोड गर्ने APK / Google Drive / Play Store लिङ्क)
+                        </label>
+                        <input 
+                          type="text" 
+                          value={app.customApkUrl || ''} 
+                          onChange={(e) => handleUpdateApp(index, 'customApkUrl', e.target.value)}
+                          placeholder="https://drive.google.com/file/d/... वा सिधा .apk लिङ्क"
+                          className="w-full bg-white/5 border border-emerald-500/30 rounded-xl px-3 py-2.5 text-sm text-emerald-300 font-mono focus:border-emerald-500 outline-none"
+                        />
+                        {app.customApkUrl && /drive\.google\.com/i.test(app.customApkUrl) && (
+                          <p className="text-[11px] text-emerald-400/90 mt-1">
+                            Google Drive लिङ्क पत्ता लाग्यो — प्रयोगकर्ताले क्लिक गर्दा सिधै यही एप डाउनलोड हुनेछ।
+                          </p>
+                        )}
+                      </div>
+
+                      <div>
+                        <label className="block text-xs font-medium text-gray-400 mb-1">File Size (साइज - ऐच्छिक)</label>
+                        <input 
+                          type="text" 
+                          value={app.fileSize || ''} 
+                          onChange={(e) => handleUpdateApp(index, 'fileSize', e.target.value)}
+                          placeholder="उदा: 18 MB"
+                          className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm text-white focus:border-indigo-500 outline-none"
+                        />
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <label className="block text-xs font-medium text-gray-400 mb-1">Status (अवस्था)</label>
+                          <select
+                            value={app.status || 'Available'}
+                            onChange={(e) => handleUpdateApp(index, 'status', e.target.value)}
+                            className="w-full bg-[#0d111d] border border-white/10 rounded-xl px-3 py-2 text-sm text-white focus:border-indigo-500 outline-none"
+                          >
+                            <option value="Available">Available (सक्रिय)</option>
+                            <option value="Coming Soon">Coming Soon (चाँडै)</option>
+                          </select>
+                        </div>
+
+                        <div>
+                          <label className="block text-xs font-medium text-gray-400 mb-1">Icon (आइकन)</label>
+                          <select
+                            value={app.icon || 'Smartphone'}
+                            onChange={(e) => handleUpdateApp(index, 'icon', e.target.value)}
+                            className="w-full bg-[#0d111d] border border-white/10 rounded-xl px-3 py-2 text-sm text-white focus:border-indigo-500 outline-none"
+                          >
+                            <option value="Smartphone">App / Mobile</option>
+                            <option value="Store">Market / Store</option>
+                            <option value="Globe">Web / Portal</option>
+                            <option value="Box">Package / Tool</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div className="md:col-span-2">
+                        <label className="block text-xs font-medium text-gray-400 mb-1">Website / Details Link (वेबसाइट वा थप जानकारी लिङ्क - ऐच्छिक)</label>
+                        <input 
+                          type="text" 
+                          value={app.websiteUrl || ''} 
+                          onChange={(e) => handleUpdateApp(index, 'websiteUrl', e.target.value)}
+                          placeholder="https://... (ऐच्छिक)"
+                          className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm text-white focus:border-indigo-500 outline-none"
+                        />
+                      </div>
+
+                      <div className="md:col-span-2">
+                        <label className="block text-xs font-medium text-gray-400 mb-1">Description (विवरण)</label>
+                        <textarea 
+                          rows={2}
+                          value={app.description || ''} 
+                          onChange={(e) => handleUpdateApp(index, 'description', e.target.value)}
+                          placeholder="यो एपको मुख्य विशेषता र प्रयोगबारे छोटो विवरण..."
+                          className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm text-white focus:border-indigo-500 outline-none"
+                        />
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
 

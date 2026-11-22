@@ -65,8 +65,33 @@ export function AppsAndServices() {
 
   const renderAppCard = (service: any, index: number) => {
     const IconComponent = getIcon(service.icon);
-    const rawDownloadLink = service.customApkUrl ? service.customApkUrl : (service.useGlobalApkUrl !== false ? apkUrl : undefined);
+    const trimmedCustomUrl = typeof service.customApkUrl === "string" ? service.customApkUrl.trim() : "";
+    const rawDownloadLink = trimmedCustomUrl
+      ? trimmedCustomUrl
+      : service.useGlobalApkUrl === true
+      ? apkUrl
+      : undefined;
     const downloadLink = rawDownloadLink ? getDirectApkUrl(rawDownloadLink) : undefined;
+    const isStoreOrWebDownload = Boolean(
+      downloadLink &&
+      /^https?:\/\//i.test(downloadLink) &&
+      !downloadLink.includes("drive.usercontent.google.com") &&
+      !/\.apk(\?|$)/i.test(downloadLink)
+    );
+    const safeFileSlug = (service.name || "mugu-app")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "") || "mugu-app";
+    const downloadFileName = service.id === "hamro-mugu-market" ? "Hamro-Mugu-Market.apk" : `${safeFileSlug}.apk`;
+    const downloadLabel = service.id === "hamro-mugu-market"
+      ? "Download APK (~29 MB)"
+      : service.fileSize?.trim()
+      ? `Download APK (${service.fileSize.trim()})`
+      : isStoreOrWebDownload
+      ? "Download / Open App"
+      : "Download App (APK)";
+    const websiteUrl = typeof service.websiteUrl === "string" ? service.websiteUrl.trim() : "";
+    const isExternalWebsite = /^https?:\/\//i.test(websiteUrl);
     const isAvailable = service.status === "Available";
     const theme = getCardTheme(index);
 
@@ -114,20 +139,32 @@ export function AppsAndServices() {
               href={downloadLink}
               target={downloadLink.startsWith("/") ? undefined : "_blank"} 
               rel="noopener noreferrer"
-              download="Hamro-Mugu-Market.apk"
+              download={isStoreOrWebDownload ? undefined : downloadFileName}
               className={`w-full flex items-center justify-center gap-2 py-3 rounded-2xl text-sm font-bold transition-all ${theme.btn}`}
             >
-              <Download className="w-4 h-4" />
-              Download APK (~29 MB)
+              {isStoreOrWebDownload ? <ExternalLink className="w-4 h-4" /> : <Download className="w-4 h-4" />}
+              {downloadLabel}
             </a>
-          ) : service.websiteUrl ? (
-            <a 
-              href={service.websiteUrl}
-              className={`w-full flex items-center justify-center gap-2 py-3 rounded-2xl text-sm font-bold transition-all ${theme.btn}`}
-            >
-              <span>Explore Portal</span>
-              <ArrowRight className="w-4 h-4" />
-            </a>
+          ) : websiteUrl ? (
+            isExternalWebsite ? (
+              <a 
+                href={websiteUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`w-full flex items-center justify-center gap-2 py-3 rounded-2xl text-sm font-bold transition-all ${theme.btn}`}
+              >
+                <span>Explore Portal</span>
+                <ExternalLink className="w-4 h-4" />
+              </a>
+            ) : (
+              <Link 
+                to={websiteUrl}
+                className={`w-full flex items-center justify-center gap-2 py-3 rounded-2xl text-sm font-bold transition-all ${theme.btn}`}
+              >
+                <span>Explore Portal</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            )
           ) : (
             <button 
               disabled
@@ -138,14 +175,26 @@ export function AppsAndServices() {
             </button>
           )}
 
-          {service.websiteUrl && downloadLink && (
-            <Link 
-              to={service.websiteUrl}
-              className="w-full flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white py-2.5 rounded-xl text-xs font-semibold transition-colors border border-white/5"
-            >
-              <ExternalLink className="w-3.5 h-3.5" />
-              More Details & Installation Steps
-            </Link>
+          {websiteUrl && downloadLink && (
+            isExternalWebsite ? (
+              <a 
+                href={websiteUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white py-2.5 rounded-xl text-xs font-semibold transition-colors border border-white/5"
+              >
+                <ExternalLink className="w-3.5 h-3.5" />
+                More Details &amp; Website
+              </a>
+            ) : (
+              <Link 
+                to={websiteUrl}
+                className="w-full flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white py-2.5 rounded-xl text-xs font-semibold transition-colors border border-white/5"
+              >
+                <ExternalLink className="w-3.5 h-3.5" />
+                More Details &amp; Installation Steps
+              </Link>
+            )
           )}
         </div>
       </motion.div>
